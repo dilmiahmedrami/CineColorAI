@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineColorAI - Reimagine Visuals with AI-Powered Grading</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Premium Styling - Elevated Design and Micro-Interactions */
+        :root {
+            --primary-color: #525CEB;  /* Electric Indigo */
+            --secondary-color: #00B8A9; /* Aqua Green */
+            --accent-color: #FFDD4A;  /* Solar Yellow */
+            --text-color-dark: #333;   /* Darker Text */
+            --text-color-light: #EEE;
+            --background-color: #F5F5F5; /* Slightly darker background */
+            --container-background: #FFFFFF;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, .06); /* More subtle shadow */
+            --border-radius: 14px;  /* Slightly increased border-radius */
+            --font-family-primary: 'Inter', sans-serif;
+            --font-family-secondary: 'Space Grotesk', sans-serif;
+            --transition-duration: 0.3s;
+            --gradient-primary: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            --input-background: #ECEFF1; /* Lighter input background */
+            --input-border: #B0BEC5; /* Muted input border */
+        }
+
+        body {
+            font-family: var(--font-family-primary);
+            background-color: var(--background-color);
+            color: var(--text-color-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7; /* Slightly increased line height */
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; /* Improve font rendering */
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        /* Header - Dynamic Gradient and Engaging Typography */
+        header {
+            background: var(--gradient-primary);
+            color: var(--text-color-light);
+            padding: 70px 30px; /* Further increased padding */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); /* Angled clip path */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            animation: gradientShift 10s ease infinite; /* Add Gradient Animation */
+            background-size: 200% 200%; /* Required for animation */
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cdefs%3E%3Cpattern id="softNoise" width="10" height="10" patternUnits="userSpaceOnUse"%3E%3Crect width="10" height="10" fill="rgba(255,255,255,0.05)"/%3E%3Ccircle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.1)"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23softNoise)" /%3E%3C/svg%3E');
+            opacity: 0.6; /* Subtle texture */
+            z-index: 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3.5em;
+            font-weight: 700;
+            letter-spacing: -1.5px; /* Tighten letter spacing */
+            position: relative;
+            z-index: 1;
+            font-family: var(--font-family-secondary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Text shadow */
+            transition: transform var(--transition-duration); /* Subtle animation */
+        }
+
+        header h1:hover {
+            transform: scale(1.05); /* Slight scale on hover */
+        }
+
+        header p {
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            max-width: 700px; /* Limit paragraph width */
+            margin: 20px auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Text shadow */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navigation - Elevated and Animating */
+        nav {
+            background: linear-gradient(to bottom, var(--container-background), #f0f0f0); /* Gradient background */
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.06); /* More subtle shadow */
+            margin-bottom: 40px;
+            border-radius: var(--border-radius); /* Consistent border radius */
+            position: sticky; /* Make navigation sticky */
+            top: 0;
+            z-index: 100; /* Ensure it stays on top */
+        }
+
+        nav a {
+            margin: 0 25px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-duration), transform var(--transition-duration), box-shadow var(--transition-duration); /* Added box-shadow transition */
+            display: inline-block;
+            position: relative;
+            padding: 8px 12px; /* Add padding to the links */
+            border-radius: 6px;  /* Rounded corners for links */
+        }
+
+        nav a::before { /* Changed from ::after to ::before for animation origin */
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            bottom: 0; /* Underline appears at the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--secondary-color);
+            transition: width var(--transition-duration);
+            border-radius: 2px; /* Rounded corners for the underline */
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow on hover */
+        }
+
+        nav a:hover::before {
+            width: 100%; /* Full width underline */
+        }
+
+        /* Container - Clean and Modern */
+        .container {
+            max-width: 950px;
+            margin: 40px auto; /* Increased margin */
+            padding: 50px; /* Increased padding */
+            background: var(--container-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: transform var(--transition-duration), box-shadow var(--transition-duration); /* Subtle transform on hover */
+        }
+
+        .container:hover {
+            transform: translateY(-3px); /* Slight lift on container hover */
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);  /* More pronounced shadow on hover */
+        }
+
+        /* Section - Enhanced Visual Structure */
+        section {
+            margin-bottom: 50px; /* More spacing between sections */
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Start a little lower */
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out; /* Smooth transition */
+        }
+
+        section.in-view {
+            opacity: 1; /* Fade in when in view */
+            transform: translateY(0); /* Move to original position */
+        }
+
+        h2 {
+            border-bottom: 4px solid var(--primary-color);
+            padding-bottom: 12px;
+            color: var(--primary-color);
+            font-size: 2.4em; /* Slightly larger headings */
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-family: var(--font-family-secondary); /* Use secondary font */
+            transition: color var(--transition-duration), text-shadow var(--transition-duration); /* Hover effect */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
+        }
+
+        h2:hover {
+            color: var (--secondary-color); /* Hover effect */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-size: 1.4em; /* Slightly larger subheadings */
+            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Feature List - Refined Iconography and Layout */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px; /* Increased spacing */
+            padding-left: 40px; /* More indent */
+            position: relative;
+            transition: transform var(--transition-duration), box-shadow var(--transition-duration); /* Hover effect */
+        }
+
+        .feature-list li:hover {
+            transform: translateX(5px); /* Slight shift on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow on hover */
+        }
+
+        .feature-list li i {
+            position: absolute;
+            left: 0;
+            top: 6px;
+            color: var(--secondary-color);
+            font-size: 1.3em;
+            margin-right: 15px;
+            width: 25px; /* Fixed width for alignment */
+            text-align: center;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity var(--transition-duration), transform var(--transition-duration);
+        }
+
+        .feature-list li:hover i {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .feature-list li b {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .feature-list li ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 12px; /* Added margin */
+        }
+
+        .feature-list li ul li {
+            display: block;
+            margin-bottom: 10px;
+            padding-left: 30px; /* More indent for nested items */
+            position: relative;
+        }
+
+        .feature-list li ul li::before {
+            content: '\f0da'; /* Font Awesome right arrow */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            color: var(--accent-color);
+            font-size: 0.8em; /* Slightly smaller arrow */
+        }
+
+        /* Usage Steps - Visual Cues */
+        ol {
+            padding-left: 30px;
+            counter-reset: usage-counter; /* Initialize a counter */
+        }
+
+        ol li {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            position: relative;
+            padding-left: 35px;
+            transition: background-color var(--transition-duration); /* Hover effect */
+        }
+
+        ol li:hover {
+            background-color: rgba(0, 0, 0, 0.03); /* Light background on hover */
+        }
+
+        ol li::before {
+            counter-increment: usage-counter;
+            content: counter(usage-counter); /* Display the counter */
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            text-align: center;
+            line-height: 25px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        /* Technical Details - Improved Styling */
+        #technical ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #technical ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        #technical ul li::before {
+            content: '\f138'; /* Font Awesome code icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: var(--primary-color);
+            font-size: 0.9em; /* Slightly smaller icon */
+        }
+
+        /* Footer - Enhanced Visual Appeal */
+        footer {
+            background: var(--gradient-primary); /* Gradient background */
+            color: var(--text-color-light);
+            text-align: center;
+            padding: 30px; /* Increased padding */
+            margin-top: 50px; /* More spacing above */
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%); /* Mirrored clip path from header */
+        }
+
+        /* Smaller Screens - Even Better Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                padding: 50px 20px;
+                clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); /* Adjust clip path */
+            }
+
+            header h1 {
+                font-size: 2.6em;
+            }
+
+            header p {
+                font-size: 1.1em;
+            }
+
+            nav a {
+                margin: 0 12px;
+            }
+
+            .container {
+                padding: 40px;
+            }
+        }
+
+        /* LUT Generation UI */
+        .lut-generation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--input-background);
+        }
+
+        .lut-generation label {
+            font-weight: 500;
+            color: var(--text-color-dark);
+        }
+
+        .lut-generation select,
+        .lut-generation input[type="number"] {
+            padding: 10px;
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--container-background);
+            color: var(--text-color-dark);
+            font-family: var(--font-family-primary);
+            width: 200px;
+            margin-top: 5px;
+        }
+
+        .lut-generation button {
+            padding: 12px 24px;
+            background-color: var(--secondary-color);
+            color: var(--text-color-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color var(--transition-duration);
+        }
+
+        .lut-generation button:hover {
+            background-color: darken(var(--secondary-color), 10%);
+        }
+
+    </style>
+
+    <script>
+        // Function to handle scroll-triggered animations using Intersection Observer
+        function handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view'); // Add the 'in-view' class
+                    observer.unobserve(entry.target); // Stop observing after animation
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver(handleIntersection, {
+                threshold: 0.1  // Trigger when 10% of the section is visible
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+    <header>
+        <h1>CineColorAI - Craft the Perfect Visual Symphony</h1>
+        <p>Harness the power of AI to reimagine your visuals and unlock new creative horizons. <b>Currently powered by ResNet50, we're on a journey to build our very own, custom-trained AI model for even more nuanced and personalized color grading.</b></p>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#how-it-helps">Benefits</a>
+        <a href="#features">Features</a>
+        <a href="#technical">Technical</a>
+    </nav>
+
+    <div class="container">
+        <section id="how-it-helps">
+            <h2>Elevating Visuals for Creatives</h2>
+            <p>
+                CineColorAI is designed to empower designers and cinematographers with the intelligence and tools to master the art of color.  Effortlessly create breathtaking visuals that resonate with emotion and captivate your audience.
+            </p>
+
+            <h3>Transform Your Workflow:</h3>
+            <ul class="feature-list">
+                <li><i class="fas fa-search-plus"></i> <b>AI-Powered Discovery:</b> Uncover hidden patterns and aesthetic possibilities through AI-driven image analysis.  <b>(Roadmap: Our own AI model for deeper insights)</b></li>
+                <li><i class="fas fa-sliders-h"></i> <b>Precision Color Mastery:</b> Fine-tune every nuance of your image with our advanced color tools, designed for unparalleled control.</li>
+                <li><i class="fas fa-film"></i> <b>Cinematic Style Generation:</b> Craft custom LUTs that instantly evoke the perfect mood and transform your visuals into cinematic masterpieces.</li>
+                <li><i class="fas fa-hourglass-half"></i> <b>Effortless Efficiency:</b> Automate time-consuming tasks and concentrate on the creative aspects of your work.</li>
+                <li><i class="fas fa-chart-pie"></i> <b>Deep Image Insights:</b> Gain actionable intelligence about your image's color harmony, dynamic range, and compositional structure.</li>
+            </ul>
+            <p><b>Our commitment:</b> We're constantly evolving.  Expect even more advanced features and intuitive controls as our custom AI model takes shape.</p>
+        </section>
+
+        <section id="features">
+            <h2>Unleash the Potential of Color</h2>
+            <ul class="feature-list">
+                <li><i class="fas fa-file-upload"></i> <b>Seamless Image Input:</b> Drag and drop your images directly into CineColorAI for instant analysis.</li>
+                <li><i class="fas fa-microscope"></i> <b>Intelligent Visual Profiling:</b>  Delve into the core properties of your images with our advanced analytical engine:
+                    <ul>
+                        <li>Dominant color identification and proportional analysis</li>
+                        <li>Color harmony assessment for visual balance</li>
+                        <li>Dynamic range analysis and tonal distribution mapping</li>
+                        <li>Rule of thirds-based composition analysis</li>
+                        <li>Brightness, contrast, saturation, and more.</li>
+                    </ul>
+                </li>
+                <li><i class="fas fa-magic"></i> <b>Interactive LUT Creation Studio:</b> Design bespoke LUTs that reflect your unique aesthetic vision.</li>
+
+                <li><i class="fas fa-file-download"></i> <b>LUT Export:</b> Export your custom LUTs in the industry-standard .cube format for use across all your editing platforms.</li>
+                <li><i class="fas fa-code"></i> <b>Base64 Stream Access:</b> Integrate adjusted images seamlessly into web applications with readily available Base64 encoded streams.</li>
+                <li><i class="fas fa-robot"></i> <b>AI-Augmented Analysis:</b> Harness the power of ResNet50 feature extraction to reveal hidden patterns and nuanced relationships in your visuals. <b>(Transitioning to our custom AI!)</b></li>
+            </ul>
+        </section>
+
+        <section id="usage">
+            <h2>Getting Started with CineColorAI</h2>
+            <ol>
+                <li><b>Import Your Image:</b> Start by uploading your image using the drag-and-drop interface.</li>
+                <li><b>Analyze the Data:</b> Review the detailed image analysis to understand the color profile.</li>
+                <li><b>Refine the Colors:</b> Use the intuitive tools to adjust the colors to your liking.</li>
+                <li><b>Export Your LUT:</b> Generate and download your custom LUT for seamless integration into other projects.</li>
+            </ol>
+        </section>
+
+        <section id="technical">
+            <h2>Behind the Innovation</h2>
+            <p>
+                CineColorAI is powered by a robust and scalable architecture built on the following technologies:
+            </p>
+            <ul>
+                <li><i class="fas fa-server"></i> <b>Backend:</b> Python with the Flask web framework for API and core logic.</li>
+                <li><i class="fas fa-photo-video"></i> <b>Image Processing:</b> PIL (Pillow), OpenCV, NumPy, Scikit-image, and Scipy for advanced image manipulation, transformation and analysis.</li>
+                <li><i class="fas fa-brain"></i> <b>AI Engine:</b> PyTorch and TorchVision for deep learning implementations (ResNet50).  <b>(Future: Our custom-trained model built from scratch !)</b></li>
+                <li><i class="fas fa-code-branch"></i> <b>Frontend:</b> HTML and JavaScript for a dynamic, interactive and responsive user interface.</li>
+                <li><i class="fas fa-compress"></i> <b>Image Optimization:</b> WebP image format for efficient delivery of processed images.</li>
+            </ul>
+        </section>
+
+     
+    </div>
+
+    <footer>
+        <p>© 2025 CineColorAI. All rights reserved. Crafted with passion and AI-powered precision.</p>
+        <p class="warning">⚠️ This tool is highly experimental and may produce unexpected results. Use with caution. ⚠️</p>
+    </footer>
+
+        }
+    </script>
+</body>
+</html>
