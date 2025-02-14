@@ -1,0 +1,949 @@
+/* Premium Styling - Elevated Design and Micro-Interactions */
+:root {
+    --primary-color: #525CEB;
+    --secondary-color: #00B8A9;
+    --accent-color: #FFDD4A;
+    --text-color-dark: #333;         /* Slightly darker for better contrast */
+    --text-color-light: #FAFAFA;      /* Lighter for backgrounds */
+    --background-color: #F5F5F5;      /* Softer background */
+    --container-background: #FFFFFF;
+    --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* More prominent shadow */
+    --border-radius: 16px;         /* Slightly more rounded */
+    --font-family-primary: 'Inter', sans-serif;
+    --font-family-secondary: 'Space Grotesk', sans-serif;
+    --transition-duration: 0.3s;
+    --gradient-primary: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); /* Alternate */
+}
+
+body {
+    font-family: var(--font-family-primary);
+    background-color: var(--background-color);
+    color: var(--text-color-dark);
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+/* Header - Smoother Transitions & Subtle Effects */
+header {
+    background: var(--gradient-primary);
+    color: var(--text-color-light);
+    padding: 80px 30px;   /* More vertical padding */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%); /* Adjusted clip-path */
+    transition: background var(--transition-duration) ease-in-out;  /* Transition background */
+}
+
+header:hover {
+    background: var(--gradient-secondary); /* Change gradient on hover */
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cdefs%3E%3Cpattern id="softNoise" width="10" height="10" patternUnits="userSpaceOnUse"%3E%3Crect width="10" height="10" fill="rgba(255,255,255,0.05)"/%3E%3Ccircle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.1)"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23softNoise)" /%3E%3C/svg%3E');
+    opacity: 0.5;  /* Slight reduction in opacity */
+    z-index: 0;
+    pointer-events: none; /* Allow clicks through the noise */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 4.0em;       /* Bigger headline */
+    font-weight: 700;
+    letter-spacing: -1.8px;  /* Tighter letter spacing */
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-family-secondary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+}
+
+header p {
+    font-size: 1.4em;       /* Bigger paragraph */
+    font-weight: 400;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+    max-width: 750px;       /* Wider max width */
+    margin: 25px auto;    /* More spacing */
+}
+
+/* Navigation - More Space, Hover Animations, Rounded Corners */
+nav {
+    background-color: var(--container-background);
+    text-align: center;
+    padding: 30px;     /* More padding */
+    box-shadow: var(--box-shadow);
+    margin-bottom: 50px;  /* Increased bottom margin */
+    border-radius: var(--border-radius);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    margin: 0 30px;     /* More horizontal margin */
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-duration), transform var(--transition-duration);
+    display: inline-block;
+    position: relative;
+    border-radius: 8px;  /* Slightly rounded */
+    padding: 8px 12px;    /* Add padding */
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 4px;         /* Thicker underline */
+    bottom: 0px;      /* Underline at the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--secondary-color);
+    transition: width var(--transition-duration), background-color var(--transition-duration);
+    border-radius: 2px;  /* Rounded underline */
+}
+
+nav a:hover {
+    color: var(--secondary-color);
+    transform: translateY(-3px); /* Slight lift on hover */
+    background-color: rgba(0, 184, 169, 0.05);  /* Subtle hover bg */
+}
+
+nav a:hover::before {
+    width: 100%;
+    background-color: var(--accent-color); /* Change underline color */
+}
+
+/* Container - Bigger Margins, Subtle Border */
+.container {
+    max-width: 1000px;
+    margin: 50px auto;    /* Increased margins */
+    padding: 60px;     /* Increased padding */
+    background: var(--container-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.02); /* Very subtle border */
+}
+
+/* Section - More Space, Softer Appearance */
+section {
+    margin-bottom: 60px; /* More spacing between sections */
+    border-radius: var(--border-radius); /*Match Container */
+}
+
+h2 {
+    border-bottom: 5px solid var(--primary-color); /* Thicker */
+    padding-bottom: 15px;    /* More padding */
+    color: var(--primary-color);
+    font-size: 2.6em;       /* Slightly larger */
+    margin-bottom: 30px;  /* More spacing below */
+    font-weight: 600;
+    font-family: var(--font-family-secondary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
+}
+
+h3 {
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin-bottom: 25px;   /* Increased spacing */
+    font-size: 1.5em;       /* Slightly larger */
+}
+
+/* Feature List - More Prominent Icons, Refined Appearance */
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;  /* More vertical spacing */
+    padding-left: 50px; /* Even More Indent */
+    position: relative;
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+    border-radius: 12px;
+}
+
+.feature-list li i {
+    position: absolute;
+    left: 0;
+    top: 8px; /* Adjusted */
+    color: var(--secondary-color);
+    font-size: 1.5em;       /* Bigger icon */
+    margin-right: 20px;  /* More spacing for the icon */
+    width: 30px;       /* Fixed width for alignment */
+    text-align: center;
+    opacity: 0;
+    transform: translateX(-30px);  /* More hidden initially */
+    transition: opacity var(--transition-duration), transform var(--transition-duration), color var(--transition-duration);
+}
+
+.feature-list li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.feature-list li:hover i {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent-color);
+}
+
+.feature-list li b {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.feature-list li ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;   /* Increased */
+}
+
+.feature-list li ul li {
+    display: block;
+    margin-bottom: 12px; /* Increased */
+    padding-left: 40px; /* Increased */
+    position: relative;
+}
+
+.feature-list li ul li::before {
+    content: '\f0da';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 8px; /* Adjusted */
+    top: 3px;  /* Adjusted */
+    color: var(--accent-color);
+    font-size: 0.9em; /* Adjusted */
+}
+
+/* Usage Steps - More Pronounced Numbering */
+ol {
+    padding-left: 40px; /* Adjusted */
+    counter-reset: usage-counter;
+}
+
+ol li {
+    margin-bottom: 25px;   /* Increased */
+    line-height: 1.7;       /* Adjusted */
+    position: relative;
+    padding-left: 45px; /* Adjusted */
+}
+
+ol li::before {
+    counter-increment: usage-counter;
+    content: counter(usage-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;       /* Increased */
+    height: 30px;      /* Increased */
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    text-align: center;
+    line-height: 30px;  /* Adjusted */
+    font-size: 0.9em;   /* Adjusted */
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle number shadow */
+}
+
+/* Technical Details - More Space, Icon Alignment */
+#technical ul {
+    list-style: none;
+    padding: 0;
+}
+
+#technical ul li {
+    margin-bottom: 12px; /* Increased */
+    position: relative;
+    padding-left: 40px; /* Adjusted */
+}
+
+#technical ul li::before {
+    content: '\f138';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 5px;  /* Adjusted */
+    top: 2px;   /* Adjusted */
+    color: var(--primary-color);
+    font-size: 1.0em;   /* Adjusted */
+}
+
+/* Footer - More Padding, More Subtle Noise */
+footer {
+    background: var(--gradient-primary);
+    color: var(--text-color-light);
+    text-align: center;
+    padding: 40px; /* Adjusted */
+    margin-top: 60px; /* Adjusted */
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+    transition: background var(--transition-duration) ease-in-out;
+}
+
+footer:hover {
+    background: var(--gradient-secondary);
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cdefs%3E%3Cpattern id="softNoise" width="10" height="10" patternUnits="userSpaceOnUse"%3E%3Crect width="10" height="10" fill="rgba(255,255,255,0.03)"/%3E%3Ccircle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.05)"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23softNoise)" /%3E%3C/svg%3E');
+    opacity: 0.4;  /* More subtle noise */
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Smaller Screens - Further Optimization */
+@media (max-width: 768px) {
+    header {
+        padding: 60px 20px;  /* Adjusted */
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);  /* Slightly tweaked */
+    }
+
+    header h1 {
+        font-size: 3.0em;   /* More responsive size */
+    }
+
+    header p {
+        font-size: 1.2em;   /* Adjusted */
+        max-width: 90%;    /* Narrower on mobile */
+    }
+
+    nav {
+        padding: 20px;     /* Reduced nav padding */
+    }
+
+    nav a {
+        margin: 0 10px;    /* Reduced nav link spacing */
+        font-size: 0.9em;   /* Smaller nav links */
+    }
+
+    .container {
+        padding: 30px; /* Reduced container padding */
+        margin: 30px auto;
+    }
+
+    /* Scale back list spacing */
+    .feature-list li {
+        margin-bottom: 20px;
+        padding-left: 30px;
+    }
+
+    .feature-list li i {
+        font-size: 1.3em;
+        width: 20px;
+        transform: translateX(-20px);
+    }
+
+    ol {
+        padding-left: 20px;
+    }
+
+    ol li {
+        margin-bottom: 15px;
+        padding-left: 30px;
+    }
+
+    footer {
+        padding: 30px;
+    }
+}
+
+/* ==========================================================================
+   UPLOAD SECTION
+   ========================================================================== */
+
+#uploadSection {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    background-color: var(--container-background);
+    box-shadow: var(--box-shadow);
+}
+
+#uploadSection h2 {
+    font-size: 2.2em;    /* Slightly larger */
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color); /* Thicker underline */
+    padding-bottom: 10px;
+    font-family: var(--font-family-secondary);
+}
+
+#uploadSection p {
+    font-size: 1.2em;    /* More prominent description */
+    color: var(--text-color-dark);
+    margin-bottom: 30px;  /* More spacing */
+}
+
+#uploadForm {
+    width: 100%;
+    max-width: 600px;   /* Wider form */
+    margin-bottom: 30px;
+}
+
+/* File Upload Styling */
+.file-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    border: 3px dashed var(--secondary-color); /* More pronounced border */
+    border-radius: var(--border-radius);
+    background-color: var(--background-color);
+    color: var(--text-color-dark);
+    cursor: pointer;
+    transition: background-color var(--transition-duration), transform var(--transition-duration), border-color var(--transition-duration);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.file-upload:hover {
+    background-color: rgba(0, 184, 169, 0.08); /* Slightly stronger hover */
+    transform: translateY(-5px); /* Increased lift */
+    border-color: var(--primary-color);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08); /* Increased shadow */
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload span {
+    font-size: 1.1em;   /* Slightly bigger text */
+    font-weight: 600;   /* More emphasized */
+    color: var(--primary-color);
+    margin-bottom: 12px;  /* More spacing */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Drag and Drop Area */
+.drag-drop-area {
+    padding: 30px;
+    border: 3px dashed var(--secondary-color); /* More defined border */
+    border-radius: var(--border-radius);
+    background-color: rgba(0, 184, 169, 0.05);
+    color: var(--text-color-dark);
+    cursor: pointer;
+    transition: background-color var(--transition-duration), border-color var(--transition-duration);
+    font-size: 1.1em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.drag-drop-area:hover {
+    background-color: rgba(0, 184, 169, 0.15); /* Stronger hover effect */
+    border-color: var(--primary-color);
+}
+
+/* Drag & Drop Enhancements */
+.drag-drop-area {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.drag-drop-area.dragover {
+    border-color: #525CEB;
+}
+
+/* Image Preview */
+#filePreview {
+    max-width: 100%;
+    max-height: 300px;  /* Increased max height */
+    margin-top: 30px;   /* Increased margin */
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1); /* More defined shadow */
+    object-fit: contain;
+    display: none;      /* Hidden by default */
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration); /* hover effect */
+}
+#filePreview:hover {
+        transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* more defined shadow */
+}
+/* Analyze Button */
+#uploadForm button {
+    padding: 15px 30px;  /* Adjusted padding */
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-duration), box-shadow var(--transition-duration), transform var(--transition-duration);
+    font-size: 1.1em;   /* Slightly larger */
+    font-weight: 600;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 30px;   /* Increased spacing */
+}
+
+#uploadForm button:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px); /* Reduced hover lift */
+}
+
+/* Loading Indicator */
+#loadingIndicator {
+    display: none;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   RESULT SECTION
+   ========================================================================== */
+
+#resultSection {
+    display: none;      /* Hidden by default */
+    margin-top: 40px;   /* Increased spacing */
+    padding: 40px;     /* More padding */
+    background-color: var(--container-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: left;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+#resultSection.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#resultSection h2 {
+    font-size: 2.4em;    /* More emphasized heading */
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    border-bottom: 4px solid var(--primary-color); /* More defined underline */
+    padding-bottom: 12px;
+    font-family: var(--font-family-secondary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#resultSection .result-desc {
+    font-size: 1.2em;
+    color: var(--text-color-dark);
+    margin-bottom: 40px;  /* More spacing */
+}
+
+/* Basic Properties */
+#basicProperties {
+    margin-bottom: 40px;
+}
+
+#basicProperties h3,
+#colorAnalysis h3,
+#toneRange h3,
+#composition h3,
+#lutGeneration h3,
+#lutTesting h3 {
+    font-size: 1.6em;    /* More prominent subheadings */
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+    font-family: var(--font-family-secondary);
+}
+
+/* Properties List */
+.properties-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.properties-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* Softer border */
+    font-size: 1.1em;
+    color: var(--text-color-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.properties-list li:last-child {
+    border-bottom: none;
+}
+
+.properties-list li span {
+    font-weight: 600;    /* More emphasized values */
+    color: var(--primary-color);
+}
+
+/* Color Analysis */
+#colorAnalysis {
+    margin-bottom: 40px;
+}
+
+#dominantColors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+#dominantColors div {
+    width: 60px;       /* Larger color swatches */
+    height: 60px;      /* Larger color swatches */
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More defined shadow */
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+    cursor: pointer;
+}
+
+#dominantColors div:hover {
+    transform: scale(1.15);  /* More pronounced hover */
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+}
+
+#colorAnalysis .harmony-details {
+    font-style: italic;
+    color: #888;      /* Softer color */
+    font-size: 1.1em;
+}
+
+/* Tone Range */
+#toneRange {
+    margin-bottom: 40px;
+}
+
+/* Composition */
+#composition {
+    margin-bottom: 40px;
+}
+
+#histogramChart,
+#ruleOfThirdsCanvas {
+    max-width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More defined shadow */
+    margin-top: 20px;
+}
+
+/* LUT Generation */
+#lutGeneration {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#lutGeneration p {
+    font-size: 1.2em;    /* Increased description size */
+    color: var(--text-color-dark);
+    margin-bottom: 20px;
+}
+
+#lutPreviewCanvas {
+    border: 2px solid #ddd;    /* More defined border */
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More defined shadow */
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+#downloadLUTLink {
+    display: inline-block;
+    padding: 12px 25px;   /* Increased button padding */
+    background-color: var(--secondary-color);
+    color: var(--text-color-light);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-duration), box-shadow var(--transition-duration), transform var(--transition-duration);
+    font-weight: 600;
+    font-size: 1.1em;   /* Slightly larger */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More defined shadow */
+}
+
+#downloadLUTLink:hover {
+    background-color: var(--primary-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+/* LUT Testing */
+#lutTesting {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#lutTesting h3 {
+    font-size: 1.6em;    /* More prominent subheading */
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    font-family: var(--font-family-secondary);
+}
+
+#originalCanvas,
+#appliedCanvas {
+    border: 2px solid #ddd;    /* More defined border */
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More defined shadow */
+    max-width: 100%;
+    margin: 20px auto;
+    display: block;
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+}
+ #originalCanvas:hover,
+#appliedCanvas:hover {
+    transform: translateY(-5px); /* slight hover effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* LUT Preview */
+.lut-preview {
+    max-width: 300px;
+    border: 2px solid #ccc;
+    margin-top: 1rem;
+}
+
+/* LUT Download UI */
+#lut-download-ui {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+#lut-download-ui h2 {
+    margin-top: 0;
+}
+
+#lut-download-ui form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#lut-download-ui select,
+#lut-download-ui button {
+    padding: 5px 10px;
+    font-size: 1em;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    header {
+        padding: 50px 20px;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+
+    header h1 {
+        font-size: 2.6em;
+    }
+
+    header p {
+        font-size: 1.1em;
+    }
+
+    nav {
+        padding: 20px;
+    }
+
+    nav a {
+        margin: 0 12px;
+        font-size: 0.9em;
+    }
+
+    .container {
+        padding: 30px;
+        margin: 30px auto;
+    }
+
+    #uploadSection {
+        margin-bottom: 20px;
+    }
+
+    #uploadForm {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .file-upload {
+        padding: 30px;
+    }
+
+    .file-upload span {
+        font-size: 1.0em;
+    }
+
+    /* Adjust Result Section for smaller screens */
+    #resultSection {
+        padding: 25px;
+        margin-top: 25px;
+    }
+
+    #basicProperties h3,
+    #colorAnalysis h3,
+    #toneRange h3,
+    #composition h3,
+    #lutGeneration h3,
+    #lutTesting h3 {
+        font-size: 1.4em; /* Reduce H3 size on smaller screens */
+    }
+
+    .properties-list li {
+        font-size: 0.95em;
+    }
+
+    #dominantColors div {
+        width: 50px;       /* Slightly smaller for mobile */
+        height: 50px;
+    }
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Warning Message Styling */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+.warning {
+    color: #FF0000; /* Red color for warning */
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace; /* Better font */
+    animation: blink 1s infinite; /* Animation */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Color Picker Styling */
+.color-picker {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.color-picker label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.color-picker input[type="color"] {
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+/* Slider Styling */
+.slider-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.slider-container label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.slider-container input[type="range"] {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.slider-container span {
+    min-width: 40px;
+    text-align: right;
+}
+
+/* ...existing code... */
+#lut-section {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+#lut-section h2 {
+  margin-top: 0;
+}
+
+#lut-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#lut-section select,
+#lut-section input[type="range"],
+#lut-section button {
+  padding: 5px 10px;
+  font-size: 1em;
+}
+
+#lut-section button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#lut-section button:hover {
+  background-color: #367c39;
+}
+
+#lutDownloadMessage {
+  color: green;
+  font-weight: bold;
+  margin-top: 5px;
+}

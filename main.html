@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineColorAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&family=Montserrat:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Modern Color Scheme */
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #F72585;
+            --text-color: #333;
+            --background-color: #f9f9f9;
+            --accent-color: #FFC300;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        /* Micro-Interactions */
+        .file-upload label:hover {
+            background-color: #ddd;
+        }
+
+        button:hover {
+            background-color: #ddd;
+            cursor: pointer;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(var(--primary-color-rgb), 0.5);
+        }
+
+        .color-swatches div:hover {
+            transform: scale(1.1);
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: var(--primary-color);
+        }
+
+        /* Drag & Drop Enhancements */
+        .drag-drop-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .drag-drop-area.dragover {
+            border-color: var(--primary-color);
+        }
+
+        /* Loading Indicator */
+        #loadingIndicator {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--primary-color);
+        }
+
+        /* Result Section Animations */
+        #resultSection {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        #resultSection.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* LUT Download Indication */
+        #downloadLUTLink {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        #lutDownloadMessage {
+            display: none;
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* Lazy Loading */
+        img[loading="lazy"] {
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        img[loading="lazy"].loaded {
+            opacity: 1;
+        }
+
+        /* Basic styling for demonstration */
+        .image-comparison {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .image-container {
+            width: 300px;
+            text-align: center;
+        }
+
+        .image-comparison img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .lut-controls {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .slider {
+            width: 200px;
+        }
+
+        .test-lut-button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .test-lut-button:hover {
+            background-color: #367c39;
+        }
+
+        /* New styles for comprehensive metrics */
+        .metrics-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: var(--container-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .metrics-section h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .metrics-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .metrics-section ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .metrics-section ul li:last-child {
+            border-bottom: none;
+        }
+
+        .metrics-section ul li span {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* New styles for histogram */
+        .histogram-container {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: var(--container-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .histogram-container canvas {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .histogram-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .histogram-controls button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color var(--transition-duration), box-shadow var(--transition-duration), transform var(--transition-duration);
+            font-size: 1.1em;
+            font-weight: 600;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .histogram-controls button:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* New styles for tone mapping */
+        .tone-mapping-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: var(--container-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .tone-mapping-section h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .tone-mapping-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tone-mapping-controls label {
+            font-weight: bold;
+        }
+
+        .tone-mapping-controls input[type="range"] {
+            width: 100%;
+        }
+
+        .tone-mapping-controls select {
+            padding: 10px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* New styles for explanations, recommendations, and warnings */
+        .info-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: var(--container-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .info-section h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .info-section p {
+            font-size: 1.1em;
+            color: var(--text-color-dark);
+            margin-bottom: 20px;
+        }
+
+        .info-section .warning {
+            color: #FF0000;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'Roboto Mono', monospace;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+    <script>
+        // Function to handle form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('uploadForm');
+            const fileInput = document.getElementById('fileInput');
+            const resultSection = document.getElementById('resultSection');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const file = fileInput.files[0];
+                if (!file) {
+                    alert('Please select a file to analyze.');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                loadingIndicator.style.display = 'block';
+                resultSection.style.display = 'none';
+
+                console.log('Submitting form with file:', file.name);
+
+                fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    console.log('Received response:', response);
+                    return response.json();
+                })
+                .then(data => {
+                    loadingIndicator.style.display = 'none';
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        console.log('Analysis result:', data);
+                        displayResults(data);
+                    }
+                })
+                .catch(error => {
+                    loadingIndicator.style.display = 'none';
+                    alert('An error occurred while analyzing the image.');
+                    console.error('Error:', error);
+                });
+            });
+
+            function displayResults(data) {
+                // Display the analysis results in the result section
+                resultSection.style.display = 'block';
+                // Populate the result section with data
+                // Example: document.getElementById('dominantColors').innerText = JSON.stringify(data.dominant_colors);
+                // Add more code here to display other analysis results
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header id="topHeader">
+            <h1>CineColorAI</h1>
+            <nav><a href="{{ url_for('documentation') }}" class="doc-button">Documentation</a></nav>
+        </header>
+
+        <main>
+            <div id="errorMessage" class="error-message" aria-live="assertive" style="display:none;"></div>
+            <div id="offlineMessage" class="offline-message" aria-live="assertive" style="display:none;"></div>
+            <div id="statusMessage" class="status-message" aria-live="polite" style="display:none;"></div>
+
+            <section id="uploadSection">
+                <form id="uploadForm">
+                    <div class="file-upload">
+                        <label for="fileInput">
+                            <span>📁 Choose Image</span>
+                        </label>
+                        <input type="file" id="fileInput" name="file" accept="image/*" aria-describedby="fileInputDesc">
+                        <span id="fileChosen">No file chosen</span>
+                        <div id="fileInputDesc" class="sr-only">Select image.</div>
+                    </div>
+                    <div class="drag-drop-area" id="dragDropArea">Drag & Drop Here</div>
+                    <button type="submit" aria-label="Analyze Image">Analyze</button>
+                </form>
+                <img id="filePreview" src="#" alt="Image Preview" style="display:none;" loading="lazy">
+                <div id="loadingIndicator">Analyzing...</div>
+            </section>
+
+            
+            <section id="resultSection" style="display:none;">
+               <h2>Analysis Result</h2>
+                <p class="result-desc">Detailed color profile & properties.</p>
+
+                <section id="basicProperties">
+                    <h3>Image Properties</h3>
+                    <ul class="properties-list">
+                        <li>Brightness: <span id="brightness">--</span></li>
+                        <li>Contrast: <span id="contrast">--</span></li>
+                        <li>Saturation: <span id="saturation">--</span></li>
+                        <li>Exposure: <span id="exposure">--</span></li>
+                        <li>Sharpness: <span id="sharpness">--</span></li>
+                        <li>Film Grain: <span id="filmGrain">--</span></li>
+                        <li>Color Temp: <span id="colorTemp">--</span></li>
+                        <li>Tint: <span id="tint">--</span></li>
+                        <li>Mood: <span id="mood">--</span></li>
+                        <li>Avg. Color: <span id="avgColor">--</span></li>
+                    </ul>
+                </section>
+
+                <section id="colorAnalysis">
+                    <h3>Color Analysis</h3>
+                    <div id="dominantColors" class="color-swatches"></div>
+                    <div class="color-analysis" id="colorAnalysisWithPercentage"></div>
+                    <div class="harmony-details">
+                        Harmony: <span id="harmony">--</span> (Confidence: <span id="harmonyConfidence">--</span>)
+                    </div>
+                    <div>Detected Palettes: <span id="cinematicPalettes">--</span></div>
+                </section>
+
+                <section id="toneRange">
+                    <h3>Tone & Dynamic Range</h3>
+                    <ul class="properties-list">
+                        <li>Lift: <span id="lift">--</span></li>
+                        <li>Dynamic Range: <span id="dynamicRange">--</span></li>
+                    </ul>
+                    <canvas id="histogramChart" width="400" height="200" aria-label="Histogram Chart"></canvas>
+                </section>
+
+                <section id="composition">
+                    <h3>Composition</h3>
+                    <canvas id="ruleOfThirdsCanvas" width="400" height="300" aria-label="Rule of Thirds Analysis"></canvas>
+                </section>
+
+                <section id="comprehensiveMetrics" class="metrics-section">
+                    <h3>Comprehensive Metrics</h3>
+                    <ul>
+                        <li>Black Point: <span id="blackPoint">--</span></li>
+                        <li>White Point: <span id="whitePoint">--</span></li>
+                        <li>Contrast Ratio: <span id="contrastRatio">--</span></li>
+                        <li>Clipping Indicators: <span id="clippingIndicators">--</span></li>
+                        <li>Shadow Range: <span id="shadowRange">--</span></li>
+                        <li>Midtone Range: <span id="midtoneRange">--</span></li>
+                        <li>Highlight Range: <span id="highlightRange">--</span></li>
+                    </ul>
+                </section>
+
+                <section id="enhancedVisualization" class="histogram-container">
+                    <h3>Enhanced Visualization</h3>
+                    <canvas id="rgbHistogram" width="400" height="200" aria-label="RGB Histogram"></canvas>
+                    <div class="histogram-controls">
+                        <button id="adjustHistogramScale">Adjust Histogram Scale</button>
+                        <button id="overlayHistogramCurve">Overlay Histogram Curve</button>
+                    </div>
+                </section>
+
+                <section id="toneMapping" class="tone-mapping-section">
+                    <h3>Tone Mapping and Adjustments</h3>
+                    <div class="tone-mapping-controls">
+                        <label for="toneMappingOperator">Tone Mapping Operator:</label>
+                        <select id="toneMappingOperator">
+                            <option value="reinhard">Reinhard</option>
+                            <option value="filmic">Filmic</option>
+                        </select>
+                        <label for="shadowsSlider">Shadows:</label>
+                        <input type="range" id="shadowsSlider" min="0" max="100" value="50">
+                        <label for="highlightsSlider">Highlights:</label>
+                        <input type="range" id="highlightsSlider" min="0" max="100" value="50">
+                        <label for="blacksSlider">Blacks:</label>
+                        <input type="range" id="blacksSlider" min="0" max="100" value="0">
+                        <label for="whitesSlider">Whites:</label>
+                        <input type="range" id="whitesSlider" min="0" max="100" value="100">
+                        <label for="midtoneContrastSlider">Midtone Contrast:</label>
+                        <input type="range" id="midtoneContrastSlider" min="0" max="100" value="50">
+                    </div>
+                </section>
+
+                <section id="infoSection" class="info-section">
+                    <h3>Information and Guidance</h3>
+                    <p id="explanations">Explanations of metrics and controls will be displayed here.</p>
+                    <p id="recommendations">Recommendations for improving the dynamic range will be displayed here.</p>
+                    <p id="warnings" class="warning">Warnings about clipping or poor dynamic range will be displayed here.</p>
+                </section>
+                <div id="lut-section">
+                    <h2>LUT Generation & Testing</h2>
+                    <form id="lutForm" action="/test_lut" method="POST">
+                        <label for="lut_type">Select LUT type:</label>
+                        <select name="lut_type" id="lut_type">
+                            <option value="cube">.cube</option>
+                            <option value="3dl">.3dl</option>
+                        </select>
+                        <label for="lutIntensity">LUT Intensity:</label>
+                        <input type="range" id="lutIntensity" name="lut_intensity" min="0" max="100" value="100" class="slider">
+                        <span id="lutIntensityValue">100%</span>
+                <button type="button" id="testLUTButton" class="test-lut-button">Test LUT on Default Image</button>
+                    </form>
+
+                    <div class="image-comparison">
+                        <div class="image-container">
+                            <h3>Original Image</h3>
+                            <img id="originalImage" src="" alt="Original Image" style="display: none;">
+                        </div>
+                        <div class="image-container">
+                            <h3>LUT Applied Image</h3>
+                            <img id="lutAppliedImage" src="" alt="LUT Applied Image" style="display: none;">
+                        </div>
+                    </div>
+
+                    <a id="downloadLUTLink" href="#" download="custom_lut.cube" style="display: none;">Download LUT</a>
+                    <div id="lutDownloadMessage" style="display: none;">LUT downloaded successfully!</div>
+
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 CineColorAI -- RAMI DILMI</p>
+            <p class="warning">⚠️ This tool is highly experimental and may produce unexpected results. Use with caution. ⚠️</p>
+        </footer>
+    </div>
+
+    <canvas id="myChart"></canvas>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('myChart');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                if (ctx) {
+                    const myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3, 5, 2, 3],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    console.error('Context could not be retrieved.');
+                }
+            } else {
+                console.error('Canvas element not found.');
+            }
+        });
+
+        // Function to apply LUT to an image with correct BGR indexing
+       function applyLUTToImage(image, lutData, intensity) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.drawImage(image, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            const lutSize = Math.round(Math.pow(lutData.length / 4, 1 / 3));
+
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+
+                // Correct BGR indexing
+                let lutIndex = (b * lutSize * lutSize + g * lutSize + r) * 4;
+
+                if (lutIndex + 2 < lutData.length) {
+                    data[i] = data[i] * (1 - intensity) + lutData[lutIndex] * intensity;
+                    data[i + 1] = data[i + 1] * (1 - intensity) + lutData[lutIndex + 1] * intensity;
+                    data[i + 2] = data[i + 2] * (1 - intensity) + lutData[lutIndex + 2] * intensity;
+                }
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+            return canvas.toDataURL();
+        }
+
+    </script>
+    <script>
+        // Cache DOM Elements
+        const uploadForm = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
+        const fileChosen = document.getElementById('fileChosen');
+        const resultSection = document.getElementById('resultSection');
+        const errorMessage = document.getElementById('errorMessage');
+        const statusMessage = document.getElementById('statusMessage');
+        const filePreview = document.getElementById('filePreview');
+        const downloadLUTLink = document.getElementById('downloadLUTLink');
+        const lutDownloadMessage = document.getElementById('lutDownloadMessage');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        const originalImage = document.getElementById('originalImage');
+        const lutAppliedImage = document.getElementById('lutAppliedImage');
+        const lutIntensity = document.getElementById('lutIntensity');
+        const lutIntensityValue = document.getElementById('lutIntensityValue');
+
+        const dragDropArea = document.getElementById('dragDropArea');
+        const testLUTButton = document.getElementById('testLUTButton');
+
+        let lutData = null;
+         // Function to display messages
+        function showMessage(message, type = 'info') {
+            // Clear any existing messages first
+            clearMessages();
+
+            errorMessage.textContent = message;
+            errorMessage.className = `message ${type}-message show`;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000); // Hide after 5 seconds
+        }
+
+        // Function to clear messages
+        function clearMessages() {
+            errorMessage.style.display = 'none';
+            statusMessage.style.display = 'none';
+        }
+
+        // Function to set property value
+        function setProperty(id, value) {
+            document.getElementById(id).textContent = value || '--';
+        }
+
+        // Load and render the default image
+        function loadDefaultImage() {
+            const imageUrl = "{{ url_for('static', filename='test.jpg') }}";
+            originalImage.src = imageUrl; // Use originalImage directly
+            originalImage.style.display = 'block'; // Ensure it's visible
+            originalImage.onload = () => {
+                // Image loaded
+            }
+            originalImage.onerror = () => {
+                console.error("Error loading default image.");
+                showMessage("Error loading default image.", "error");
+        // Debouncing Function
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+         // Load and render the default image
+        function loadDefaultImage() {
+            const imageUrl = "{{ url_for('static', filename='Test.jpg') }}";
+            originalImage.src = imageUrl;
+            originalImage.style.display = 'block';
+            originalImage.onload = () => {
+                // Image loaded successfully
+            };
+            originalImage.onerror = () => {
+                console.error("Error loading default image.");
+                showMessage("Error loading default image.", "error");
+            };
+            lutAppliedImage.src = imageUrl; // Initialize lutAppliedImage with the same image
+            lutAppliedImage.style.display = 'block';
+        }
+
+        loadDefaultImage();
+        
+                reader.onerror = () => {
+                    console.error("Error reading file.");
+                    showMessage("Error reading file.", "error");
+                };
+
+                reader.readAsDataURL(file);
+            };
+                filePreview.src = '#';
+                filePreview.style.display = 'none';
+                filePreview.classList.remove('loaded');
+            }
+        
+
+        fileInput.addEventListener('change', debounce(handleFileInputChange, 250));
+
+        // Handle form submission
+        uploadForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearMessages();
+
+            const file = fileInput.files[0];
+            if (!file) {
+                showMessage('Please select a file.', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            statusMessage.textContent = "Analyzing Image...";
+            statusMessage.style.display = "block";
+            loadingIndicator.style.display = "block"; // Show loading indicator
+
+            try {
+                const response = await fetch('/analyze', { method: 'POST', body: formData });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Request failed: ${response.status}`);
+                }
+
+                const result = await response.json();
+                displayResults(result);
+                resultSection.classList.add('show');
+                resultSection.style.display = 'block';
+                statusMessage.textContent = "Analysis Complete.";
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage(`Error analyzing: ${error.message}`, 'error');
+            } finally {
+                statusMessage.style.display = "none";
+                loadingIndicator.style.display = "none";
+            }
+        });
+
+       function displayResults(result) {
+            const { brightness, contrast, saturation, exposure, sharpness, film_grain, color_temperature, tint, mood, average_color, color_harmony, dynamic_range, cinematic_palettes, dominant_colors, color_percentages, rule_of_thirds, histogram, comprehensive_metrics, rgb_histogram } = result;
+
+            // Basic Properties
+            setProperty('brightness', brightness);
+            setProperty('contrast', contrast);
+            setProperty('saturation', saturation);
+            setProperty('exposure', exposure);
+            setProperty('sharpness', sharpness);
+            setProperty('filmGrain', film_grain);
+            setProperty('colorTemp', color_temperature);
+            setProperty('tint', tint);
+            setProperty('mood', mood);
+            setProperty('avgColor', average_color ? average_color.join(', ') : '--');
+            setProperty('dynamicRange', dynamic_range ? `S:${dynamic_range.shadows}, M:${dynamic_range.midtones}, H:${dynamic_range.highlights}` : '--');
+
+            // Color Analysis
+            document.getElementById('harmony').textContent = color_harmony ? color_harmony.harmony : '--';
+            document.getElementById('harmonyConfidence').textContent = color_harmony ? color_harmony.confidence : '--';
+            document.getElementById('cinematicPalettes').textContent = cinematic_palettes ? cinematic_palettes.join(', ') : 'None';
+
+            const dominantColorsDiv = document.getElementById('dominantColors');
+            dominantColorsDiv.innerHTML = ''; // Clear previous swatches
+            dominant_colors.forEach((color, index) => {
+                const colorDiv = document.createElement('div');
+                colorDiv.style.backgroundColor = `rgb(${color.join(',')})`;
+                colorDiv.title = `rgb(${color.join(',')}) - ${color_percentages[index].toFixed(1)}%`; // Show percentage in title
+                const percentageSpan = document.createElement('span');
+                percentageSpan.textContent = `${color_percentages[index].toFixed(1)}%`;
+                colorDiv.appendChild(percentageSpan);
+                dominantColorsDiv.appendChild(colorDiv);
+            });
+
+            // Render Visualizations
+            renderHistogram(histogram);
+            displayComprehensiveMetrics(comprehensive_metrics);
+            renderRGBHistogram(rgb_histogram);
+            renderRuleOfThirds(ruleOfThirds);
+
+            // LUT Handling
+            if (result.lut_data) {
+                lutData = result.lut_data; // Store LUT data globally
+                const lutSize = Math.round(Math.pow(lutData.length / 4, 1 / 3));
+                const lutType = document.getElementById('lut_type').value; // Get selected LUT type
+                const cubeFileContent = createCubeFileContent(lutData, lutSize, lutType);
+                const blob = new Blob([cubeFileContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+
+                downloadLUTLink.href = url;
+                downloadLUTLink.setAttribute('download', `custom_lut.${lutType}`);
+                downloadLUTLink.style.display = 'inline-block';
+                lutDownloadMessage.style.display = 'block';
+            } else {
+                console.error("LUT data not received from the server.");
+                showMessage("LUT data not received from the server. Please ensure the image analysis is successful.", "error");
+                downloadLUTLink.style.display = 'none';
+                lutDownloadMessage.style.display = 'none';
+            }
+        }
+
+        // Function to render histogram
+        function renderHistogram(histogramData) {
+            const ctx = document.getElementById('histogramChart')?.getContext('2d');
+            if (ctx) {
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear the canvas
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Array.from({ length: 256 }, (_, i) => i),
+                        datasets: [{
+                            label: 'Grayscale Frequency',
+                            data: histogramData,
+                            backgroundColor: 'rgba(102,51,153,0.6)',
+                            borderColor: 'rgba(102,51,153,1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: { title: { display: true, text: 'Intensity (0-255)' } },
+                            y: { title: { display: true, text: 'Frequency' } }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            } else {
+                console.error('Histogram canvas context could not be retrieved.');
+            }
+        }
+
+        // Function to render rule of thirds
+        function renderRuleOfThirds(ruleOfThirds) {
+            const canvas = document.getElementById('ruleOfThirdsCanvas');
+            const ctx = canvas?.getContext('2d');
+            if (ctx) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                if (!ruleOfThirds || !ruleOfThirds.grid_lines) {
+                    ctx.font = '16px Arial';
+                    ctx.fillStyle = 'red';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Rule of Thirds data not available', canvas.width / 2, canvas.height / 2);
+                    return;
+                }
+
+                ctx.strokeStyle = '#663399';
+                ctx.lineWidth = 1;
+
+                ruleOfThirds.grid_lines.forEach(([x, y]) => {
+                    if (x > 0) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, 0);
+                        ctx.lineTo(x, canvas.height);
+                        ctx.stroke();
+                    }
+                    if (y > 0) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, y);
+                        ctx.lineTo(canvas.width, y);
+                        ctx.stroke();
+                    }
+                });
+
+                if (ruleOfThirds.intersection_points && ruleOfThirds.interest_values) {
+                    ctx.fillStyle = 'rgba(255, 255, 0, 0.7)';
+                    ruleOfThirds.intersection_points.forEach((point, index) => {
+                        const [x, y] = point;
+                        const interestValue = ruleOfThirds.interest_values[index].interest;
+                        const radius = 5 + (interestValue / 50);
+                        ctx.beginPath();
+                        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                        ctx.fill();
+                    });
+                }
+            } else {
+                console.error('Rule of Thirds canvas context could not be retrieved.');
+            }
+        }
+
+        // Drag & Drop Functionality
+        dragDropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragDropArea.classList.add('dragover');
+        });
+
+        dragDropArea.addEventListener('dragleave', () => {
+            dragDropArea.classList.remove('dragover');
+        });
+
+        dragDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragDropArea.classList.remove('dragover');
+
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                fileInput.files = e.dataTransfer.files; // Set the dropped file to the file input
+                fileInput.dispatchEvent(new Event('change')); // Trigger the change event
+            } else {
+                showMessage('Invalid file type. Please drop an image.', 'error');
+            }
+        });
+
+        // Function to handle LUT testing
+        async function testLUT() {
+            try {
+                // Load default image if no image is uploaded
+                if (!originalImage.src) {
+                    originalImage.src = "{{ url_for('static', filename='test.jpg') }}";
+                }
+
+                // Get LUT intensity
+                const intensity = parseFloat(lutIntensity.value) / 100;
+
+                // Create image for processing
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+
+                img.onload = function() {
+                    // Set canvas dimensions
+                    originalCanvas.width = img.width;
+                    originalCanvas.height = img.height;
+                    appliedCanvas.width = img.width;
+                    appliedCanvas.height = img.height;
+
+                    // Draw original image
+                    originalCtx.drawImage(img, 0, 0);
+                    originalImage.src = originalCanvas.toDataURL();
+
+                    // Apply LUT if available
+                    if (lutData) {
+                        const imageData = originalCtx.getImageData(0, 0, originalCanvas.width, originalCanvas.height);
+                        const lutAppliedData = applyLUT(imageData, lutData, intensity);
+                        appliedCtx.putImageData(lutAppliedData, 0, 0);
+                        lutAppliedImage.src = appliedCanvas.toDataURL();
+                    } else {
+                        // If no LUT data, just copy original image
+                        appliedCtx.drawImage(img, 0, 0);
+                        lutAppliedImage.src = appliedCanvas.toDataURL();
+                    }
+
+                    // Show comparison container
+                    document.querySelector('.image-comparison').style.display = 'flex';
+                };
+
+                img.onerror = function() {
+                    showMessage("Error loading image for LUT preview", "error");
+                };
+
+                img.src = originalImage.src;
+            } catch (error) {
+                console.error('Error testing LUT:', error);
+                showMessage(`Error testing LUT: ${error.message}`, 'error');
+            }
+        }
+
+        // Modified event listeners
+        testLUTButton.addEventListener('click', () => {
+            testLUT();
+        });
+
+        lutIntensity.addEventListener('input', () => {
+            lutIntensityValue.textContent = lutIntensity.value + '%';
+            if (originalImage.src) {
+                testLUT();
+            }
+        });
+
+        // Function to display comprehensive metrics
+        function displayComprehensiveMetrics(metrics) {
+            setProperty('blackPoint', metrics.blackPoint);
+            setProperty('whitePoint', metrics.whitePoint);
+            setProperty('contrastRatio', metrics.contrastRatio);
+            setProperty('clippingIndicators', metrics.clippingIndicators);
+            setProperty('shadowRange', metrics.shadowRange);
+            setProperty('midtoneRange', metrics.midtoneRange);
+            setProperty('highlightRange', metrics.highlightRange);
+        }
+
+        function createCubeFileContent(lutData, lutSize, lutType) {
+            let fileContent = '';
+
+            if (lutType === '.cube') {
+                fileContent += 'TITLE "Custom LUT"\n';
+                fileContent += `LUT_3D_SIZE ${lutSize}\n`;
+                fileContent += 'DOMAIN_MIN 0.0 0.0 0.0\n';
+                fileContent += 'DOMAIN_MAX 1.0 1.0 1.0\n';
+
+                for (let i = 0; i < lutData.length; i += 4) {
+                    const r = lutData[i] / 255;
+                    const g = lutData[i + 1] / 255;
+                    const b = lutData[i + 2] / 255;
+                    fileContent += `${r.toFixed(6)} ${g.toFixed(6)} ${b.toFixed(6)}\n`;
+                }
+            } else if (lutType === '.3dl') {
+                fileContent += `# 3DL format\n${lutSize} ${lutSize} ${lutSize}\n`;
+                for (let i = 0; i < lutData.length; i += 4) {
+                  const r = Math.round(lutData[i] * 16);
+                  const g = Math.round(lutData[i + 1] * 16);
+                  const b = Math.round(lutData[i + 2] * 16);
+                  fileContent += `${r} ${g} ${b}\n`;
+                }
+            } else if (lutType === '.lut') {
+                const lut_size = lutData.length;
+                fileContent += `# .lut format\n${lut_size}\n`;
+                for (let i = 0; i < lutData.length; i += 4) {
+                    const r = lutData[i];
+                    const g = lutData[i + 1];
+                    const b = lutData[i + 2];
+                    fileContent += `${r} ${g} ${b}\n`;
+                }
+            }
+
+            return fileContent;
+        }
+
+       // Function to render RGB histogram
+function renderRGBHistogram(histogramData) {
+    const canvas = document.getElementById('rgbHistogram');
+    const ctx = canvas.getContext('2d');
+
+    // Check for existing chart and destroy it
+    let existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({ length: 256 }, (_, i) => i),
+            datasets: [
+                {
+                    label: 'Red',
+                    data: histogramData.red,
+                    backgroundColor: 'rgba(255, 0, 0, 0.6)',
+                    borderColor: 'rgba(255, 0, 0, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Green',
+                    data: histogramData.green,
+                    backgroundColor: 'rgba(0, 255, 0, 0.6)',
+                    borderColor: 'rgba(0, 255, 0, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Blue',
+                    data: histogramData.blue,
+                    backgroundColor: 'rgba(0, 0, 255, 0.6)',
+                    borderColor: 'rgba(0, 0, 255, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: { title: { display: true, text: 'Intensity (0-255)' } },
+                y: { title: { display: true, text: 'Frequency' } }
+            },
+            plugins: { legend: { display: true } }
+        }
+    });
+}
+
+        // Function to apply tone mapping
+        function applyToneMapping() {
+            const operator = document.getElementById('toneMappingOperator').value;
+            const shadows = document.getElementById('shadowsSlider').value;
+            const highlights = document.getElementById('highlightsSlider').value;
+            const blacks = document.getElementById('blacksSlider').value;
+            const whites = document.getElementById('whitesSlider').value;
+            const midtoneContrast = document.getElementById('midtoneContrastSlider').value;
+
+            // Apply tone mapping logic here
+        }
+
+        // Event listeners for tone mapping controls
+        document.getElementById('toneMappingOperator').addEventListener('change', applyToneMapping);
+        document.getElementById('shadowsSlider').addEventListener('input', applyToneMapping);
+        document.getElementById('highlightsSlider').addEventListener('input', applyToneMapping);
+        document.getElementById('blacksSlider').addEventListener('input', applyToneMapping);
+        document.getElementById('whitesSlider').addEventListener('input', applyToneMapping);
+        document.getElementById('midtoneContrastSlider').addEventListener('input', applyToneMapping);
+
+        // Function to display explanations, recommendations, and warnings
+        function displayInfo(info) {
+            document.getElementById('explanations').textContent = info.explanations;
+            document.getElementById('recommendations').textContent = info.recommendations;
+            document.getElementById('warnings').textContent = info.warnings;
+        }
+
+        // Example usage
+        displayComprehensiveMetrics({
+            blackPoint: '0',
+            whitePoint: '255',
+            contrastRatio: '1000:1',
+            clippingIndicators: 'None',
+            shadowRange: '0-85',
+            midtoneRange: '86-170',
+            highlightRange: '171-255'
+        });
+
+        renderRGBHistogram({
+            red: Array.from({ length: 256 }, () => Math.random() * 100),
+            green: Array.from({ length: 256 }, () => Math.random() * 100),
+            blue: Array.from({ length: 256 }, () => Math.random() * 100)
+        });
+
+        displayInfo({
+            explanations: 'This section provides explanations of the metrics and controls.',
+            recommendations: 'This section offers recommendations for improving the dynamic range.',
+            warnings: 'This section displays warnings about clipping or poor dynamic range.'
+        });
+
+        // Function to apply LUT to an image with correct BGR indexing
+       function applyLUTToImage(image, lutData, intensity) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.drawImage(image, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            const lutSize = Math.round(Math.pow(lutData.length / 4, 1 / 3));
+
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+
+                // Correct BGR indexing
+                let lutIndex = (b * lutSize * lutSize + g * lutSize + r) * 4;
+
+                if (lutIndex + 2 < lutData.length) {
+                    data[i] = data[i] * (1 - intensity) + lutData[lutIndex] * intensity;
+                    data[i + 1] = data[i + 1] * (1 - intensity) + lutData[lutIndex + 1] * intensity;
+                    data[i + 2] = data[i + 2] * (1 - intensity) + lutData[lutIndex + 2] * intensity;
+                }
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+            return canvas.toDataURL();
+        }
+
+        // Function to apply LUT
+        function applyLUT() {
+            const intensity = lutIntensity.value / 100;
+            const originalImageElement = document.getElementById('originalImage');
+            const lutAppliedImageElement = document.getElementById('lutAppliedImage');
+
+            // Ensure the original image is loaded before applying the LUT
+            if (!originalImageElement.complete || !originalImageElement.naturalHeight) {
+                console.error("Original image not loaded for LUT application.");
+                showMessage("Original image not loaded. Please wait for it to load.", "error");
+                return;
+            }
+
+            const originalImage = new Image();
+            originalImage.crossOrigin = "Anonymous"; // Handle potential CORS issues
+            originalImage.src = originalImageElement.src;
+
+            originalImage.onload = () => {
+                const lutAppliedDataURL = applyLUTToImage(originalImage, lutData, intensity);
+                lutAppliedImageElement.src = lutAppliedDataURL;
+                lutAppliedImageElement.style.display = 'block'; // Ensure the image is displayed
+            };
+
+            originalImage.onerror = () => {
+                console.error("Error loading original image for LUT application.");
+                showMessage("Error loading original image for LUT application.", "error");
+            };
+        }
+
+       // Function to apply LUT to an ImageData object
+        function applyLUT(imageData, lutData, intensity) {
+            const data = imageData.data;
+            const lutSize = Math.round(Math.pow(lutData.length / 4, 1 / 3));
+
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+
+                // Calculate LUT indices
+                let lutR = Math.floor(r / 255 * (lutSize - 1));
+                let lutG = Math.floor(g / 255 * (lutSize - 1));
+                let lutB = Math.floor(b / 255 * (lutSize - 1));
+
+                // Correct BGR indexing
+                let lutIndex = (lutB * lutSize * lutSize + lutG * lutSize + lutR) * 4;
+
+                // Apply LUT with intensity
+                if (lutIndex + 2 < lutData.length) {
+                    data[i] = data[i] * (1 - intensity) + lutData[lutIndex] * intensity;
+                    data[i + 1] = data[i + 1] * (1 - intensity) + lutData[lutIndex + 1] * intensity;
+                    data[i + 2] = data[i + 2] * (1 - intensity) + lutData[lutIndex + 2] * intensity;
+                }
+            }
+            return imageData;
+        }
+
+        // Event listener for test LUT button
+        testLUTButton.addEventListener('click', testLUT);
+
+        // Event listener for LUT intensity slider (debounced)
+        lutIntensity.addEventListener('input', debounce(() => {
+            lutIntensityValue.textContent = lutIntensity.value + '%';
+            testLUT();
+        }, 250)); // Debounce with 250ms delay
+
+        // Modified testLUT function to use default image
+        async function testLUT() {
+            try {
+                // Use default image if no image is uploaded
+                let imageUrl = originalImage.src;
+                if (!imageUrl) {
+                    imageUrl = "{{ url_for('static', filename='Test.jpg') }}";
+                }
+
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = imageUrl;
+
+                img.onload = function() {
+                    // Create canvas and draw the image
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+
+                    // Apply LUT if available
+                    if (lutData) {
+                        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        imageData = applyLUT(imageData, lutData, lutIntensity.value / 100);
+                        ctx.putImageData(imageData, 0, 0);
+                    }
+
+                    // Update the images in the comparison section
+                    originalImage.src = imageUrl;
+                    lutAppliedImage.src = canvas.toDataURL();
+                    originalImage.style.display = 'block';
+                    lutAppliedImage.style.display = 'block';
+                };
+
+                img.onerror = function() {
+                    showMessage("Error loading image for LUT preview", "error");
+                };
+
+                // Fetch request to test_lut endpoint
+                const formData = new FormData();
+                formData.append('lut_intensity', lutIntensity.value);
+                formData.append('lut_type', document.getElementById('lut_type').value);
+
+                fetch('/test_lut', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw err; });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.lut_applied_image_base64) {
+                        lutAppliedImage.src = `data:image/png;base64,${data.lut_applied_image_base64}`;
+                        lutAppliedImage.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                console.error('Error:', error);
+                    showMessage(`Error testing LUT: ${error.error || error.message || 'Unknown error'}`, 'error');
+                });
+
+            } catch (error) {
+                console.error('Error testing LUT:', error);
+                showMessage(`Error testing LUT: ${error.message}`, 'error');
+            }
+        };
+
+        // Event listener for clicking outside the image to remove focus
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.image-container')) {
+                // Remove focus or perform any other action
+            }
+        });
+
+        // More robust error handling and logging
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error("Unhandled error:", message, source, lineno, colno, error);
+            showMessage(`An unexpected error occurred: ${message}`, 'error');
+            return true; // Prevent default browser error handling
+        };
+
+    </script>
+</body>
+</html>

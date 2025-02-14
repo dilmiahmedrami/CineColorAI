@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="title">CineColorAI - Reimagine Visuals with AI-Powered Grading</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Premium Styling - Elevated Design and Micro-Interactions */
+        :root {
+            --primary-color: #525CEB;  /* Electric Indigo */
+            --secondary-color: #00B8A9; /* Aqua Green */
+            --accent-color: #FFDD4A;  /* Solar Yellow */
+            --text-color-dark: #333;   /* Darker Text */
+            --text-color-light: #EEE;
+            --background-color: #F5F5F5; /* Slightly darker background */
+            --container-background: #FFFFFF;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, .06); /* More subtle shadow */
+            --border-radius: 14px;  /* Slightly increased border-radius */
+            --font-family-primary: 'Inter', sans-serif;
+            --font-family-secondary: 'Space Grotesk', sans-serif;
+            --transition-duration: 0.3s;
+            --gradient-primary: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            --input-background: #ECEFF1; /* Lighter input background */
+            --input-border: #B0BEC5; /* Muted input border */
+            --font-family-arabic: 'Amiri', serif;
+            --highlight-color: #FF6F61; /* Coral for highlights */
+            --spacing-large: 20px; /* Adjusted large spacing */
+            --spacing-medium: 10px; /* Adjusted medium spacing */
+            --spacing-small: 5px; /* Adjusted small spacing */
+            --dark-background-color: #121212;
+            --dark-container-background: #1E1E1E;
+            --dark-text-color-light: #FFFFFF;
+            --dark-text-color-dark: #BBBBBB;
+            --dark-primary-color: #BB86FC;
+            --dark-secondary-color: #03DAC6;
+            --dark-accent-color: #CF6679;
+            --dark-box-shadow: 0 8px 20px rgba(0, 0, 0, .3);
+            --dark-input-background: #2C2C2C;
+            --dark-input-border: #444444;
+        }
+
+        body {
+            font-family: var(--font-family-primary);
+            background-color: var(--background-color);
+            color: var(--text-color-dark);
+            margin: 0;
+            padding: var(--spacing-medium); /* Adjusted padding */
+            line-height: 1.7; /* Slightly increased line height */
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; /* Improve font rendering */
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-background-color);
+            color: var(--dark-text-color-dark);
+        }
+
+        /* Arabic Font Enhancement */
+        html[lang="ar"] body {
+            font-family: var(--font-family-arabic);
+        }
+
+
+        /* Header - Dynamic Gradient and Engaging Typography */
+        header {
+            background: var(--gradient-primary);
+            color: var(--text-color-light);
+            padding: var(--spacing-large) var(--spacing-medium); /* Adjusted padding */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); /* Angled clip path */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            animation: gradientShift 10s ease infinite; /* Add Gradient Animation */
+            background-size: 200% 200%; /* Required for animation */
+        }
+
+        body.dark-mode header {
+            background: var(--dark-primary-color);
+            color: var(--dark-text-color-light);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cdefs%3E%3Cpattern id="softNoise" width="10" height="10" patternUnits="userSpaceOnUse"%3E%3Crect width="10" height="10" fill="rgba(255,255,255,0.05)"/%3E%3Ccircle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.1)"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23softNoise)" /%3E%3C/svg%3E');
+            opacity: 0.6; /* Subtle texture */
+            z-index: 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3.5em;
+            font-weight: 700;
+            letter-spacing: -1.5px; /* Tighten letter spacing */
+            position: relative;
+            z-index: 1;
+            font-family: var(--font-family-secondary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Text shadow */
+            transition: transform var(--transition-duration); /* Subtle animation */
+        }
+
+        header h1:hover {
+            transform: scale(1.05); /* Slight scale on hover */
+        }
+
+        header p {
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            max-width: 700px; /* Limit paragraph width */
+            margin: 20px auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Text shadow */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navigation - Elevated and Animating */
+        nav {
+            background: linear-gradient(to bottom, var(--container-background), #f0f0f0); /* Gradient background */
+            text-align: center;
+            padding: var(--spacing-medium); /* Adjusted padding */
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.06); /* More subtle shadow */
+            margin-bottom: 40px;
+            border-radius: var(--border-radius); /* Consistent border radius */
+            position: sticky; /* Make navigation sticky */
+            top: 0;
+            z-index: 100; /* Ensure it stays on top */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body.dark-mode nav {
+            background: linear-gradient(to bottom, var(--dark-container-background), #2C2C2C);
+            box-shadow: var(--dark-box-shadow);
+        }
+
+        nav a {
+            margin: 0 25px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-duration), transform var(--transition-duration), box-shadow var(--transition-duration); /* Added box-shadow transition */
+            display: inline-block;
+            position: relative;
+            padding: 8px 12px; /* Add padding to the links */
+            border-radius: 6px;  /* Rounded corners for links */
+        }
+
+        body.dark-mode nav a {
+            color: var(--dark-primary-color);
+        }
+
+        nav a::before { /* Changed from ::after to ::before for animation origin */
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            bottom: 0; /* Underline appears at the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--secondary-color);
+            transition: width var(--transition-duration);
+            border-radius: 2px; /* Rounded corners for the underline */
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow on hover */
+        }
+
+        body.dark-mode nav a:hover {
+            color: var(--dark-secondary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        nav a:hover::before {
+            width: 100%; /* Full width underline */
+        }
+
+        nav select {
+            margin-left: 20px;
+            padding: 8px 12px;
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--container-background);
+            color: var(--text-color-dark);
+            font-family: var(--font-family-primary);
+            cursor: pointer;
+            transition: background-color var(--transition-duration), box-shadow var(--transition-duration);
+        }
+
+        body.dark-mode nav select {
+            background-color: var(--dark-container-background);
+            color: var(--dark-text-color-light);
+            border: 1px solid var(--dark-input-border);
+        }
+
+        nav select:hover {
+            background-color: var(--input-background);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container - Clean and Modern */
+        .container {
+            max-width: 950px;
+            margin: 40px auto; /* Increased margin */
+            padding: var(--spacing-large); /* Adjusted padding */
+            background: var(--container-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: transform var(--transition-duration), box-shadow var (--transition-duration); /* Subtle transform on hover */
+        }
+
+        body.dark-mode .container {
+            background: var(--dark-container-background);
+            box-shadow: var(--dark-box-shadow);
+        }
+
+        .container:hover {
+            transform: translateY(-3px); /* Slight lift on container hover */
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);  /* More pronounced shadow on hover */
+        }
+
+        /* Section - Enhanced Visual Structure */
+        section {
+            margin-bottom: var(--spacing-large); /* Adjusted margin */
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Start a little lower */
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out; /* Smooth transition */
+        }
+
+        section.in-view {
+            opacity: 1; /* Fade in when in view */
+            transform: translateY(0); /* Move to original position */
+        }
+
+        h2 {
+            border-bottom: 4px solid var (--highlight-color); /* Use highlight color */
+            padding-bottom: 12px;
+            color: var(--primary-color);
+            font-size: 2.4em; /* Slightly larger headings */
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-family: var(--font-family-secondary); /* Use secondary font */
+            transition: color var(--transition-duration), text-shadow var(--transition-duration); /* Hover effect */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
+        }
+
+        body.dark-mode h2 {
+            color: var(--dark-primary-color);
+            border-bottom: 4px solid var(--dark-accent-color);
+        }
+
+        h2:hover {
+            color: var (--secondary-color); /* Hover effect */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
+        }
+
+        body.dark-mode h2:hover {
+            color: var(--dark-secondary-color);
+        }
+
+        h3 {
+            color: var(--highlight-color); /* Use highlight color */
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-size: 1.4em; /* Slightly larger subheadings */
+            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode h3 {
+            color: var(--dark-accent-color);
+        }
+
+        /* Feature List - Refined Iconography and Layout */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px; /* Increased spacing */
+            padding-left: var(--spacing-large); /* Use spacing variables */
+            position: relative;
+            transition: transform var(--transition-duration), box-shadow var(--transition-duration); /* Hover effect */
+        }
+
+        .feature-list li:hover {
+            transform: translateX(5px); /* Slight shift on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow on hover */
+        }
+
+        .feature-list li i {
+            position: absolute;
+            left: 0;
+            top: 6px;
+            color: var(--secondary-color);
+            font-size: 1.3em;
+            margin-right: 15px;
+            width: 25px; /* Fixed width for alignment */
+            text-align: center;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity var(--transition-duration), transform var(--transition-duration);
+        }
+
+        body.dark-mode .feature-list li i {
+            color: var(--dark-secondary-color);
+        }
+
+        .feature-list li:hover i {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .feature-list li b {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .feature-list li ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 12px; /* Added margin */
+        }
+
+        .feature-list li ul li {
+            display: block;
+            margin-bottom: 10px;
+            padding-left: var(--spacing-medium); /* Use spacing variables */
+            position: relative;
+        }
+
+        .feature-list li ul li::before {
+            content: '\f0da'; /* Font Awesome right arrow */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            color: var(--accent-color);
+            font-size: 0.8em; /* Slightly smaller arrow */
+        }
+
+        body.dark-mode .feature-list li ul li::before {
+            color: var(--dark-accent-color);
+        }
+
+        /* Usage Steps - Visual Cues */
+        ol {
+            padding-left: 30px;
+            counter-reset: usage-counter; /* Initialize a counter */
+        }
+
+        ol li {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            position: relative;
+            padding-left: var(--spacing-medium); /* Use spacing variables */
+            transition: background-color var(--transition-duration); /* Hover effect */
+        }
+
+        ol li:hover {
+            background-color: rgba(0, 0, 0, 0.03); /* Light background on hover */
+        }
+
+        ol li::before {
+            counter-increment: usage-counter;
+            content: counter(usage-counter); /* Display the counter */
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            text-align: center;
+            line-height: 25px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        body.dark-mode ol li::before {
+            background-color: var(--dark-primary-color);
+            color: var(--dark-text-color-light);
+        }
+
+        /* Technical Details - Improved Styling */
+        #technical ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #technical ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: var(--spacing-medium); /* Use spacing variables */
+        }
+
+        #technical ul li::before {
+            content: '\f138'; /* Font Awesome code icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: var(--primary-color);
+            font-size: 0.9em; /* Slightly smaller icon */
+        }
+
+        body.dark-mode #technical ul li::before {
+            color: var(--dark-primary-color);
+        }
+
+        /* Footer - Enhanced Visual Appeal */
+        footer {
+            background: var(--gradient-primary); /* Gradient background */
+            color: var(--text-color-light);
+            text-align: center;
+            padding: var(--spacing-medium); /* Adjusted padding */
+            margin-top: 50px; /* More spacing above */
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%); /* Mirrored clip path from header */
+        }
+
+        body.dark-mode footer {
+            background: var(--dark-primary-color);
+            color: var(--dark-text-color-light);
+        }
+
+        /* Smaller Screens - Even Better Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                padding: 50px 20px;
+                clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); /* Adjust clip path */
+            }
+
+            header h1 {
+                font-size: 2.6em;
+            }
+
+            header p {
+                font-size: 1.1em;
+            }
+
+            nav a {
+                margin: 0 12px;
+            }
+
+            .container {
+                padding: 40px;
+            }
+        }
+
+        /* LUT Generation UI */
+        .lut-generation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--input-background);
+        }
+
+        body.dark-mode .lut-generation {
+            background-color: var(--dark-input-background);
+            border: 1px solid var(--dark-input-border);
+        }
+
+        .lut-generation label {
+            font-weight: 500;
+            color: var(--text-color-dark);
+        }
+
+        .lut-generation select,
+        .lut-generation input[type="number"] {
+            padding: 10px;
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--container-background);
+            color: var(--text-color-dark);
+            font-family: var(--font-family-primary);
+            width: 200px;
+            margin-top: 5px;
+        }
+
+        body.dark-mode .lut-generation select,
+        body.dark-mode .lut-generation input[type="number"] {
+            background-color: var(--dark-container-background);
+            color: var(--dark-text-color-light);
+            border: 1px solid var(--dark-input-border);
+        }
+
+        .lut-generation button {
+            padding: 12px 24px;
+            background-color: var(--secondary-color);
+            color: var(--text-color-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color var(--transition-duration);
+        }
+
+        body.dark-mode .lut-generation button {
+            background-color: var(--dark-secondary-color);
+        }
+
+        .lut-generation button:hover {
+            background-color: darken(var(--secondary-color), 10%);
+        }
+
+        body.dark-mode .lut-generation button:hover {
+            background-color: darken(var(--dark-secondary-color), 10%);
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: var(--spacing-small) var(--spacing-medium);
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color var(--transition-duration), transform var(--transition-duration), box-shadow var(--transition-duration);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: var(--spacing-medium); /* Add margin to the left */
+        }
+
+        body.dark-mode .btn {
+            background-color: var(--dark-primary-color);
+            color: var(--dark-text-color-light);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            background-color: darken(var(--primary-color), 10%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .btn:hover {
+            background-color: darken(var(--dark-primary-color), 10%);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .btn:active {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-large);
+        }
+
+        body.dark-mode table {
+            background-color: var(--dark-container-background);
+        }
+
+        th, td {
+            padding: var(--spacing-small);
+            border: 1px solid var(--input-border);
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+        }
+
+        body.dark-mode th {
+            background-color: var(--dark-primary-color);
+            color: var(--dark-text-color-light);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--input-background);
+        }
+
+        body.dark-mode tr:nth-child(even) {
+            background-color: var(--dark-input-background);
+        }
+
+        /* Code Block Styling */
+        pre, code {
+            background-color: var(--input-background);
+            padding: var(--spacing-small);
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body.dark-mode pre, body.dark-mode code {
+            background-color: var(--dark-input-background);
+            color: var(--dark-text-color-light);
+        }
+
+        pre {
+            overflow-x: auto;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-small);
+        }
+
+        form input, form select, form textarea {
+            padding: var(--spacing-small);
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--container-background);
+            color: var(--text-color-dark);
+            font-family: var(--font-family-primary);
+        }
+
+        body.dark-mode form input, body.dark-mode form select, body.dark-mode form textarea {
+            background-color: var(--dark-container-background);
+            color: var(--dark-text-color-light);
+            border: 1px solid var(--dark-input-border);
+        }
+
+        form button {
+            align-self: flex-start;
+        }
+
+    </style>
+
+    <script>
+        // Function to handle scroll-triggered animations using Intersection Observer
+        function handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view'); // Add the 'in-view' class
+                    observer.unobserve(entry.target); // Stop observing after animation
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver(handleIntersection, {
+                threshold: 0.1  // Trigger when 10% of the section is visible
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for saved user preference
+            const darkModePreference = localStorage.getItem('dark-mode');
+            if (darkModePreference === 'enabled') {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Add event listener to toggle button
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            darkModeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                // Save user preference
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('dark-mode', 'enabled');
+                } else {
+                    localStorage.removeItem('dark-mode');
+                }
+            });
+        });
+    </script>
+
+</head>
+<body dir="ltr"> <!-- Set default direction to LTR -->
+
+    <header>
+        <h1 data-translate-key="headerTitle">CineColorAI - Craft the Perfect Visual Symphony</h1>
+        <p data-translate-key="headerDescription">Harness the power of AI to reimagine your visuals and unlock new creative horizons. <b>Currently powered by ResNet50, we're on a journey to build our very own, custom-trained AI model for even more nuanced and personalized color grading.</b></p>
+    </header>
+
+    <nav>
+        <a href="#home" data-translate-key="navHome">Home</a>
+        <a href="#how-it-helps" data-translate-key="navBenefits">Benefits</a>
+        <a href="#features" data-translate-key="navFeatures">Features</a>
+        <a href="#technical" data-translate-key="navTechnical">Technical</a>
+        <select id="language-selector">
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+            <option value="fr">Français</option>
+        </select>
+        <button id="dark-mode-toggle" class="btn">Toggle Dark Mode</button>
+    </nav>
+
+    <div class="container">
+        <section id="how-it-helps">
+            <h2 data-translate-key="benefitsSectionTitle">Elevating Visuals for Creatives</h2>
+            <p data-translate-key="benefitsSectionIntro">
+                CineColorAI is designed to empower designers and cinematographers with the intelligence and tools to master the art of color.  Effortlessly create breathtaking visuals that resonate with emotion and captivate your audience.
+            </p>
+
+            <h3 data-translate-key="transformWorkflowTitle">Transform Your Workflow:</h3>
+            <ul class="feature-list">
+                <li data-translate-key="aiPoweredDiscoveryFeature"><i class="fas fa-search-plus"></i> <b>AI-Powered Discovery:</b> Uncover hidden patterns and aesthetic possibilities through AI-driven image analysis.  <b>(Roadmap: Our own AI model for deeper insights)</b></li>
+                <li data-translate-key="precisionColorMasteryFeature"><i class="fas fa-sliders-h"></i> <b>Precision Color Mastery:</b> Fine-tune every nuance of your image with our advanced color tools, designed for unparalleled control.</li>
+                <li data-translate-key="cinematicStyleGenerationFeature"><i class="fas fa-film"></i> <b>Cinematic Style Generation:</b> Craft custom LUTs that instantly evoke the perfect mood and transform your visuals into cinematic masterpieces.</li>
+                <li data-translate-key="effortlessEfficiencyFeature"><i class="fas fa-hourglass-half"></i> <b>Effortless Efficiency:</b> Automate time-consuming tasks and concentrate on the creative aspects of your work.</li>
+                <li data-translate-key="deepImageInsightsFeature"><i class="fas fa-chart-pie"></i> <b>Deep Image Insights:</b> Gain actionable intelligence about your image's color harmony, dynamic range, and compositional structure.</li>
+            </ul>
+            <p data-translate-key="commitmentNote"><b>Our commitment:</b> We're constantly evolving.  Expect even more advanced features and intuitive controls as our custom AI model takes shape.</p>
+        </section>
+
+        <section id="features">
+            <h2 data-translate-key="featuresSectionTitle">Unleash the Potential of Color</h2>
+            <ul class="feature-list">
+                <li data-translate-key="seamlessImageInputFeature"><i class="fas fa-file-upload"></i> <b>Seamless Image Input:</b> Drag and drop your images directly into CineColorAI for instant analysis.</li>
+                <li data-translate-key="intelligentVisualProfilingFeature"><i class="fas fa-microscope"></i> <b>Intelligent Visual Profiling:</b>  Delve into the core properties of your images with our advanced analytical engine:
+                    <ul data-translate-key="visualProfilingDetails">
+                        <li data-translate-key="dominantColorID">Dominant color identification and proportional analysis</li>
+                        <li data-translate-key="colorHarmonyAssess">Color harmony assessment for visual balance</li>
+                        <li data-translate-key="dynamicRangeAnalysis">Dynamic range analysis and tonal distribution mapping</li>
+                        <li data-translate-key="ruleOfThirdsAnalysis">Rule of thirds-based composition analysis</li>
+                        <li data-translate-key="brightnessContrastAnalysis">Brightness, contrast, saturation, and more.</li>
+                    </ul>
+                </li>
+                <li data-translate-key="interactiveLUTStudioFeature"><i class="fas fa-magic"></i> <b>Interactive LUT Creation Studio:</b> Design bespoke LUTs that reflect your unique aesthetic vision.</li>
+
+                <li data-translate-key="lutExportFeature"><i class="fas fa-file-download"></i> <b>LUT Export:</b> Export your custom LUTs in the industry-standard .cube format for use across all your editing platforms.</li>
+                <li data-translate-key="base64StreamAccessFeature"><i class="fas fa-code"></i> <b>Base64 Stream Access:</b> Integrate adjusted images seamlessly into web applications with readily available Base64 encoded streams.</li>
+                <li data-translate-key="aiAugmentedAnalysisFeature"><i class="fas fa-robot"></i> <b>AI-Augmented Analysis:</b> Harness the power of ResNet50 feature extraction to reveal hidden patterns and nuanced relationships in your visuals. <b>(Transitioning to our custom AI!)</b></li>
+            </ul>
+        </section>
+        <section id="technical">
+            <h2 data-translate-key="technicalSectionTitle">Behind the Innovation</h2>
+            <p data-translate-key="technicalSectionIntro">
+                CineColorAI is powered by a robust and scalable architecture built on the following technologies:
+            </p>
+            <ul data-translate-key="technicalDetails">
+                <li data-translate-key="backendTech"><i class="fas fa-server"></i> <b>Backend:</b> Python with the Flask web framework for API and core logic.</li>
+                <li data-translate-key="imageProcessingTech"><i class="fas fa-photo-video"></i> <b>Image Processing:</b> PIL (Pillow), OpenCV, NumPy, Scikit-image, and Scipy for advanced image manipulation, transformation and analysis.</li>
+                <li data-translate-key="aiEngineTech"><i class="fas fa-brain"></i> <b>AI Engine:</b> PyTorch and TorchVision for deep learning implementations (ResNet50).  <b>(Future: Our custom-trained model built from scratch !)</b></li>
+                <li data-translate-key="frontendTech"><i class="fas fa-code-branch"></i> <b>Frontend:</b> HTML and JavaScript for a dynamic, interactive and responsive user interface.</li>
+                <li data-translate-key="imageOptimizationTech"><i class="fas fa-compress"></i> <b>Image Optimization:</b> WebP image format for efficient delivery of processed images.</li>
+            </ul>
+        </section>
+    
+    
+    </div>
+    
+    <footer>
+        <p data-translate-key="footerCopyright">© 2025 CineColorAI. All rights reserved. Crafted with passion and AI-powered precision.</p>
+        <p class="warning" data-translate-key="footerWarning">⚠️ This tool is highly experimental and may produce unexpected results. Use with caution. ⚠️</p>
+    </footer>
+    
+    <script>
+        const translations = {
+    en: {
+        "title": "CineColorAI - Reimagine Visuals with AI-Powered Grading",
+        "headerTitle": "CineColorAI - Craft the Perfect Visual Symphony",
+        "headerDescription": "Unlock the secrets of professional color grading. CineColorAI utilizes AI to **reverse engineer** color palettes from your favorite movies, series, or images. Simply provide a screenshot or image and let AI **extract** the underlying color grading properties, giving you a powerful and unique workflow unlike traditional color grading tools.", // Emphasized reversed workflow and extraction
+        "navHome": "Home",
+        "navBenefits": "Benefits",
+        "navFeatures": "Features",
+        "navTechnical": "Technical",
+        "benefitsSectionTitle": "Elevating Visuals for Creatives",
+        "benefitsSectionIntro": "Tired of starting from scratch with color grading? CineColorAI empowers designers and cinematographers with an innovative approach: **reverse color grading**.  Effortlessly **extract** the color DNA from any film or image – just capture a screenshot or use an existing image. This unique capability makes mastering cinematic color palettes easier than ever.", // Reinforced reverse grading and screenshot/image input
+        "transformWorkflowTitle": "Transform Your Workflow:",
+        "aiPoweredDiscoveryFeature": "<i class=\"fas fa-search-plus\"></i> <b>AI-Powered Discovery:</b> Uncover hidden patterns and aesthetic possibilities through AI-driven image analysis. <b>(Roadmap: Our own AI model for deeper insights)</b>",
+        "precisionColorMasteryFeature": "<i class=\"fas fa-sliders-h\"></i> <b>Precision Color Mastery:</b> Fine-tune every nuance of your image with our advanced color tools, designed for unparalleled control.",
+        "cinematicStyleGenerationFeature": "<i class=\"fas fa-film\"></i> <b>Cinematic Style Generation:</b> Craft custom LUTs that instantly evoke the perfect mood and transform your visuals into cinematic masterpieces.",
+        "effortlessEfficiencyFeature": "<i class=\"fas fa-hourglass-half\"></i> <b>Effortless Efficiency:</b> Automate time-consuming tasks and concentrate on the creative aspects of your work.",
+        "deepImageInsightsFeature": "<i class=\"fas fa-chart-pie\"></i> <b>Deep Image Insights:</b> Gain actionable intelligence about your image's color harmony, dynamic range, and compositional structure.",
+        "commitmentNote": "<b>Our commitment:</b> We're constantly evolving. Expect even more advanced features and intuitive controls as our custom AI model takes shape.",
+        "featuresSectionTitle": "Unleash the Potential of Color",
+        "seamlessImageInputFeature": "<i class=\"fas fa-file-upload\"></i> <b>Seamless Image Input:</b> Drag and drop your images directly into CineColorAI for instant analysis.",
+        "intelligentVisualProfilingFeature": "<i class=\"fas fa-microscope\"></i> <b>Intelligent Visual Profiling:</b> Delve into the core properties of your images with our advanced analytical engine:",
+        "visualProfilingDetails": "",
+        "dominantColorID": "Dominant color identification and proportional analysis",
+        "colorHarmonyAssess": "Color harmony assessment for visual balance",
+        "dynamicRangeAnalysis": "Dynamic range analysis and tonal distribution mapping",
+        "ruleOfThirdsAnalysis": "Rule of thirds-based composition analysis",
+        "brightnessContrastAnalysis": "Brightness, contrast, saturation, and more.",
+        "interactiveLUTStudioFeature": "<i class=\"fas fa-magic\"></i> <b>Interactive LUT Creation Studio:</b> Design bespoke LUTs that reflect your unique aesthetic vision.",
+        "lutExportFeature": "<i class=\"fas fa-file-download\"></i> <b>LUT Export:</b> Export your custom LUTs in the industry-standard .cube format for use across all your editing platforms.",
+        "base64StreamAccessFeature": "<i class=\"fas fa-code\"></i> <b>Base64 Stream Access:</b> Integrate adjusted images seamlessly into web applications with readily available Base64 encoded streams.",
+        "aiAugmentedAnalysisFeature": "<i class=\"fas fa-robot\"></i> <b>AI-Augmented Analysis:</b> Harness the power of ResNet50 feature extraction to reveal hidden patterns and nuanced relationships in your visuals. <b>(Transitioning to our custom AI!)</b>",
+        "usageSectionTitle": "Getting Started with CineColorAI",
+        "usageInstructions": "",
+        "usageStep1": "<b>Import Your Image:</b> Start by uploading your image using the drag-and-drop interface.",
+        "usageStep2": "<b>Analyze the Data:</b> Review the detailed image analysis to understand the color profile.",
+        "usageStep3": "<b>Refine the Colors:</b> Use the intuitive tools to adjust the colors to your liking.",
+        "usageStep4": "<b>Export Your LUT:</b> Generate and download your custom LUT for seamless integration into other projects.",
+        "technicalSectionTitle": "Behind the Innovation",
+        "technicalSectionIntro": "CineColorAI is powered by a robust and scalable architecture built on the following technologies:",
+        "technicalDetails": "",
+        "backendTech": "<i class=\"fas fa-server\"></i> <b>Backend:</b> Python with the Flask web framework for API and core logic.",
+        "imageProcessingTech": "<i class=\"fas fa-photo-video\"></i> <b>Image Processing:</b> PIL (Pillow), OpenCV, NumPy, Scikit-image, and Scipy for advanced image manipulation, transformation and analysis.",
+        "aiEngineTech": "<i class=\"fas fa-brain\"></i> <b>AI Engine:</b> PyTorch and TorchVision for deep learning implementations (ResNet50). <b>(Future: Our custom-trained model built from scratch !)</b>",
+        "frontendTech": "<i class=\"fas fa-code-branch\"></i> <b>Frontend:</b> HTML and JavaScript for a dynamic, interactive and responsive user interface.",
+        "imageOptimizationTech": "<i class=\"fas fa-compress\"></i> <b>Image Optimization:</b> WebP image format for efficient delivery of processed images.",
+        "footerCopyright": "© 2025 CineColorAI. All rights reserved. Crafted with passion and AI-powered precision.",
+        "footerWarning": "⚠️ This tool is highly experimental and may produce unexpected results. Use with caution. ⚠️"
+    },
+    ar: {
+        "title": "CineColorAI - إعادة تصور المرئيات بتصحيح الألوان المدعوم بالذكاء الاصطناعي",
+        "headerTitle": "CineColorAI - صياغة سيمفونية بصرية مثالية",
+        "headerDescription": "اكتشف أسرار تصحيح الألوان الاحترافي. يستخدم CineColorAI الذكاء الاصطناعي **للهندسة العكسية** لأنظمة الألوان من الأفلام أو المسلسلات أو الصور المفضلة لديك. ما عليك سوى تقديم لقطة شاشة أو صورة والسماح للذكاء الاصطناعي **باستخراج** خصائص تصحيح الألوان الأساسية، مما يمنحك سير عمل قويًا وفريدًا من نوعه على عكس أدوات تصحيح الألوان التقليدية.", // Emphasized reversed workflow and extraction in Arabic
+        "navHome": "الرئيسية",
+        "navBenefits": "المزايا",
+        "navFeatures": "الميزات",
+        "navTechnical": "التقنية",
+        "benefitsSectionTitle": "الارتقاء بالمرئيات للمبدعين",
+        "benefitsSectionIntro": "هل سئمت البدء من الصفر في تصحيح الألوان؟ يمكّن CineColorAI المصممين والمصورين السينمائيين بنهج مبتكر: **تصحيح الألوان العكسي**. **استخرج** الحمض النووي اللوني لأي فيلم أو صورة دون عناء - ما عليك سوى التقاط لقطة شاشة أو استخدام صورة موجودة. هذه القدرة الفريدة تجعل إتقان لوحات الألوان السينمائية أسهل من أي وقت مضى.", // Reinforced reverse grading and screenshot/image input in Arabic
+        "transformWorkflowTitle": "حوّل سير عملك:",
+        "aiPoweredDiscoveryFeature": "<i class=\"fas fa-search-plus\"></i> <b>اكتشاف مدعوم بالذكاء الاصطناعي:</b> اكتشف الأنماط الخفية والإمكانيات الجمالية من خلال تحليل الصور المدفوع بالذكاء الاصطناعي. <b>(خريطة الطريق: نموذج الذكاء الاصطناعي الخاص بنا للحصول على رؤى أعمق)</b>",
+        "precisionColorMasteryFeature": "<i class=\"fas fa-sliders-h\"></i> <b>إتقان دقيق للألوان:</b> اضبط بدقة كل تفاصيل الصورة باستخدام أدوات الألوان المتقدمة لدينا، المصممة لتحكم لا مثيل له.",
+        "cinematicStyleGenerationFeature": "<i class=\"fas fa-film\"></i> <b>توليد نمط سينمائي:</b> صمم LUTs مخصصة تثير على الفور الحالة المزاجية المثالية وتحول مرئياتك إلى روائع سينمائية.",
+        "effortlessEfficiencyFeature": "<i class=\"fas fa-hourglass-half\"></i> <b>كفاءة بلا عناء:</b> أتمتة المهام التي تستغرق وقتًا طويلاً وركز على الجوانب الإبداعية لعملك.",
+        "deepImageInsightsFeature": "<i class=\"fas fa-chart-pie\"></i> <b>رؤى عميقة للصور:</b> احصل على معلومات استخباراتية قابلة للتنفيذ حول تناغم ألوان صورتك والنطاق الديناميكي والبنية التركيبية.",
+        "commitmentNote": "<b>التزامنا:</b> نحن نتطور باستمرار. توقع المزيد من الميزات المتقدمة وأدوات التحكم البديهية مع تطور نموذج الذكاء الاصطناعي المخصص الخاص بنا.",
+        "featuresSectionTitle": "أطلق العنان لإمكانيات الألوان",
+        "seamlessImageInputFeature": "<i class=\"fas fa-file-upload\"></i> <b>إدخال صور سلس:</b> اسحب وأفلت صورك مباشرة في CineColorAI لتحليل فوري.",
+        "intelligentVisualProfilingFeature": "<i class=\"fas fa-microscope\"></i> <b>توصيف مرئي ذكي:</b> تعمق في الخصائص الأساسية لصورك باستخدام محرك التحليل المتقدم لدينا:",
+        "visualProfilingDetails": "",
+        "dominantColorID": "تحديد اللون السائد والتحليل النسبي",
+        "colorHarmonyAssess": "تقييم تناغم الألوان لتحقيق التوازن البصري",
+        "dynamicRangeAnalysis": "تحليل النطاق الديناميكي ورسم خرائط توزيع الدرجات اللونية",
+        "ruleOfThirdsAnalysis": "تحليل التركيب القائم على قاعدة الأثلاث",
+        "brightnessContrastAnalysis": "السطوع والتباين والتشبع والمزيد.",
+        "interactiveLUTStudioFeature": "<i class=\"fas fa-magic\"></i> <b>استوديو إنشاء LUT تفاعلي:</b> صمم LUTs مخصصة تعكس رؤيتك الجمالية الفريدة.",
+        "lutExportFeature": "<i class=\"fas fa-file-download\"></i> <b>تصدير LUT:</b> قم بتصدير LUTs المخصصة بتنسيق .cube القياسي الصناعي للاستخدام عبر جميع منصات التحرير الخاصة بك.",
+        "base64StreamAccessFeature": "<i class=\"fas fa-code\"></i> <b>الوصول إلى دفق Base64:</b> ادمج الصور المعدلة بسلاسة في تطبيقات الويب مع تدفقات Base64 المشفرة المتاحة بسهولة.",
+        "aiAugmentedAnalysisFeature": "<i class=\"fas fa-robot\"></i> <b>تحليل معزز بالذكاء الاصطناعي:</b> استغل قوة استخراج ميزات ResNet50 للكشف عن الأنماط الخفية والعلاقات الدقيقة في مرئياتك. <b>(الانتقال إلى الذكاء الاصطناعي المخصص الخاص بنا!)</b>",
+        "usageSectionTitle": "البدء في استخدام CineColorAI",
+        "usageInstructions": "",
+        "usageStep1": "<b>استيراد صورتك:</b> ابدأ بتحميل صورتك باستخدام واجهة السحب والإفلات.",
+        "usageStep2": "<b>تحليل البيانات:</b> راجع تحليل الصور التفصيلي لفهم ملف تعريف الألوان.",
+        "usageStep3": "<b>تحسين الألوان:</b> استخدم الأدوات البديهية لضبط الألوان حسب رغبتك.",
+        "usageStep4": "<b>تصدير LUT الخاص بك:</b> قم بإنشاء وتنزيل LUT المخصص الخاص بك لدمجه بسلاسة في المشاريع الأخرى.",
+        "technicalSectionTitle": "وراء الابتكار",
+        "technicalSectionIntro": "يتم تشغيل CineColorAI بواسطة بنية قوية وقابلة للتطوير مبنية على التقنيات التالية:",
+        "technicalDetails": "",
+        "backendTech": "<i class=\"fas fa-server\"></i> <b>الخلفية:</b> Python مع إطار عمل الويب Flask لواجهة برمجة التطبيقات والمنطق الأساسي.",
+        "imageProcessingTech": "<i class=\"fas fa-photo-video\"></i> <b>معالجة الصور:</b> PIL (Pillow) و OpenCV و NumPy و Scikit-image و Scipy لمعالجة الصور المتقدمة والتحويل والتحليل.",
+        "aiEngineTech": "<i class=\"fas fa-brain\"></i> <b>محرك الذكاء الاصطناعي:</b> PyTorch و TorchVision لتطبيقات التعلم العميق (ResNet50). <b>(المستقبل: نموذجنا المخصص المدرب والمبني من الصفر!)</b>",
+        "frontendTech": "<i class=\"fas fa-code-branch\"></i> <b>الواجهة الأمامية:</b> HTML و JavaScript لواجهة مستخدم ديناميكية وتفاعلية وسريعة الاستجابة.",
+        "imageOptimizationTech": "<i class=\"fas fa-compress\"></i> <b>تحسين الصور:</b> تنسيق صور WebP للتسليم الفعال للصور المعالجة.",
+        "footerCopyright": "© 2025 CineColorAI. جميع الحقوق محفوظة. صُنع بشغف ودقة مدعومة بالذكاء الاصطناعي.",
+        "footerWarning": "⚠️ هذه الأداة تجريبية للغاية وقد تنتج نتائج غير متوقعة. استخدمها بحذر. ⚠️"
+    },
+    fr: {
+        "title": "CineColorAI - Réimaginez le visuel avec un étalonnage alimenté par l'IA",
+        "headerTitle": "CineColorAI - Créez la symphonie visuelle parfaite",
+        "headerDescription": "Dévoilez les secrets de l'étalonnage des couleurs professionnel. CineColorAI utilise l'IA pour **rétro-ingénierer** les palettes de couleurs de vos films, séries ou images préférés. Fournissez simplement une capture d'écran ou une image et laissez l'IA **extraire** les propriétés d'étalonnage des couleurs sous-jacentes, vous offrant un flux de travail puissant et unique, à l'opposé des outils d'étalonnage des couleurs traditionnels.", // Emphasized reversed workflow and extraction in French
+        "navHome": "Accueil",
+        "navBenefits": "Avantages",
+        "navFeatures": "Fonctionnalités",
+        "navTechnical": "Technique",
+        "benefitsSectionTitle": "Sublimer les visuels pour les créatifs",
+        "benefitsSectionIntro": "Fatigué de partir de zéro avec l'étalonnage des couleurs ? CineColorAI donne aux designers et aux cinématographes une approche innovante : **l'étalonnage des couleurs inversé**.  **Extrayez** sans effort l'ADN colorimétrique de n'importe quel film ou image - capturez simplement une capture d'écran ou utilisez une image existante. Cette capacité unique rend la maîtrise des palettes de couleurs cinématographiques plus facile que jamais.", // Reinforced reverse grading and screenshot/image input in French
+        "transformWorkflowTitle": "Transformez votre flux de travail :",
+        "aiPoweredDiscoveryFeature": "<i class=\"fas fa-search-plus\"></i> <b>Découverte assistée par l'IA :</b> Découvrez des motifs cachés et des possibilités esthétiques grâce à l'analyse d'images pilotée par l'IA. <b>(Feuille de route : Notre propre modèle d'IA pour des informations plus approfondies)</b>",
+        "precisionColorMasteryFeature": "<i class=\"fas fa-sliders-h\"></i> <b>Maîtrise précise des couleurs :</b> Affinez chaque nuance de votre image grâce à nos outils de couleur avancés, conçus pour un contrôle inégalé.",
+        "cinematicStyleGenerationFeature": "<i class=\"fas fa-film\"></i> <b>Génération de style cinématographique :</b> Créez des LUT personnalisées qui évoquent instantanément l'ambiance parfaite et transforment vos visuels en chefs-d'œuvre cinématographiques.",
+        "effortlessEfficiencyFeature": "<i class=\"fas fa-hourglass-half\"></i> <b>Efficacité sans effort :</b> Automatisez les tâches fastidieuses et concentrez-vous sur les aspects créatifs de votre travail.",
+        "deepImageInsightsFeature": "<i class=\"fas fa-chart-pie\"></i> <b>Informations approfondies sur les images :</b> Obtenez des informations exploitables sur l'harmonie des couleurs, la plage dynamique et la structure compositionnelle de votre image.",
+        "commitmentNote": "<b>Notre engagement :</b> Nous évoluons constamment. Attendez-vous à des fonctionnalités encore plus avancées et à des commandes intuitives à mesure que notre modèle d'IA personnalisé prend forme.",
+        "featuresSectionTitle": "Libérez le potentiel de la couleur",
+        "seamlessImageInputFeature": "<i class=\"fas fa-file-upload\"></i> <b>Saisie d'image transparente :</b> Glissez-déposez vos images directement dans CineColorAI pour une analyse instantanée.",
+        "intelligentVisualProfilingFeature": "<i class=\"fas fa-microscope\"></i> <b>Profilage visuel intelligent :</b> Plongez au cœur des propriétés de vos images grâce à notre moteur analytique avancé :",
+        "visualProfilingDetails": "",
+        "dominantColorID": "Identification des couleurs dominantes et analyse proportionnelle",
+        "colorHarmonyAssess": "Évaluation de l'harmonie des couleurs pour l'équilibre visuel",
+        "dynamicRangeAnalysis": "Analyse de la plage dynamique et cartographie de la distribution tonale",
+        "ruleOfThirdsAnalysis": "Analyse de la composition basée sur la règle des tiers",
+        "brightnessContrastAnalysis": "Luminosité, contraste, saturation, et plus encore.",
+        "interactiveLUTStudioFeature": "<i class=\"fas fa-magic\"></i> <b>Studio de création LUT interactif :</b> Concevez des LUT sur mesure qui reflètent votre vision esthétique unique.",
+        "lutExportFeature": "<i class=\"fas fa-file-download\"></i> <b>Exportation LUT :</b> Exportez vos LUT personnalisées au format .cube standard de l'industrie pour une utilisation sur toutes vos plateformes d'édition.",
+        "base64StreamAccessFeature": "<i class=\"fas fa-code\"></i> <b>Accès au flux Base64 :</b> Intégrez de manière transparente les images ajustées dans les applications web grâce à des flux encodés Base64 facilement disponibles.",
+        "aiAugmentedAnalysisFeature": "<i class=\"fas fa-robot\"></i> <b>Analyse augmentée par l'IA :</b> Exploitez la puissance de l'extraction de caractéristiques ResNet50 pour révéler des motifs cachés et des relations nuancées dans vos visuels. <b>(Transition vers notre IA personnalisée !)</b>",
+        "usageSectionTitle": "Premiers pas avec CineColorAI",
+        "usageInstructions": "",
+        "usageStep1": "<b>Importer votre image :</b> Commencez par télécharger votre image à l'aide de l'interface glisser-déposer.",
+        "usageStep2": "<b>Analyser les données :</b> Examinez l'analyse d'image détaillée pour comprendre le profil de couleur.",
+        "usageStep3": "<b>Affiner les couleurs :</b> Utilisez les outils intuitifs pour ajuster les couleurs à votre goût.",
+        "usageStep4": "<b>Exporter votre LUT :</b> Générez et téléchargez votre LUT personnalisé pour une intégration transparente dans d'autres projets.",
+        "technicalSectionTitle": "Derrière l'innovation",
+        "technicalSectionIntro": "CineColorAI est alimenté par une architecture robuste et évolutive construite sur les technologies suivantes :",
+        "technicalDetails": "",
+        "backendTech": "<i class=\"fas fa-server\"></i> <b>Backend :</b> Python avec le framework web Flask pour l'API et la logique de base.",
+        "imageProcessingTech": "<i class=\"fas fa-photo-video\"></i> <b>Traitement d'image :</b> PIL (Pillow), OpenCV, NumPy, Scikit-image et Scipy pour la manipulation, la transformation et l'analyse d'images avancées.",
+        "aiEngineTech": "<i class=\"fas fa-brain\"></i> <b>Moteur d'IA :</b> PyTorch et TorchVision pour les implémentations d'apprentissage profond (ResNet50). <b>(Futur : Notre modèle personnalisé entraîné et construit à partir de zéro !)</b>",
+        "frontendTech": "<i class=\"fas fa-code-branch\"></i> <b>Frontend :</b> HTML et JavaScript pour une interface utilisateur dynamique, interactive et réactive.",
+        "imageOptimizationTech": "<i class=\"fas fa-compress\"></i> <b>Optimisation d'image :</b> Format d'image WebP pour une diffusion efficace des images traitées.",
+        "footerCopyright": "© 2025 CineColorAI. Tous droits réservés. Conçu avec passion et précision assistée par l'IA.",
+        "footerWarning": "⚠️ Cet outil est hautement expérimental et peut produire des résultats inattendus. Utilisez avec prudence. ⚠️"
+    }
+};
+    
+        function translatePage(lang) {
+            const elements = document.querySelectorAll('[data-translate-key]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate-key');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key]; // Use innerHTML to render HTML tags in translations
+                }
+            });
+            if (lang === 'ar') {
+                document.body.dir = 'rtl';
+                document.documentElement.lang = 'ar'; // Set lang attribute for Arabic font
+            } else {
+                document.body.dir = 'ltr';
+                document.documentElement.lang = lang;
+            }
+        }
+    
+        document.getElementById('language-selector').addEventListener('change', function() {
+            const lang = this.value;
+            translatePage(lang);
+        });
+    
+        // Set initial language to English or based on browser preference
+        const browserLang = navigator.language.split('-')[0];
+        let initialLang = 'en';
+        if (translations[browserLang]) {
+            initialLang = browserLang;
+        }
+        document.getElementById('language-selector').value = initialLang; // Set selector to initial language
+        translatePage(initialLang);
+    
+    
+        // Function to handle scroll-triggered animations using Intersection Observer
+        function handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view'); // Add the 'in-view' class
+                    observer.unobserve(entry.target); // Stop observing after animation
+                }
+            });
+        }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver(handleIntersection, {
+                threshold: 0.1  // Trigger when 10% of the section is visible
+            });
+    
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+    </body>
+    </html>
+
